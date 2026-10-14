@@ -1,0 +1,201 @@
+    <UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.LoginView"
+             Background="White">
+
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.fieldLabel">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+
+        <Style Selector="TextBox.loginInput">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Padding" Value="14,12" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="TextBlock.fieldError">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#C53636" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style Selector="Button.primary">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.primary:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4030D7" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#F3F1FF" />
+            <Setter Property="Foreground" Value="#4D3DEB" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+
+        <Grid Margin="32">
+
+            <StackPanel MaxWidth="390"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
+
+                
+
+                <StackPanel Orientation="Horizontal"
+                            Spacing="12"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,48">
+
+                    <Viewbox Width="60" Height="60">
+                        <Canvas Width="64" Height="64">
+
+                            <Ellipse Width="13"
+                                     Height="13"
+                                     Canvas.Left="8"
+                                     Canvas.Top="2"
+                                     Fill="#6554FF" />
+
+                            <Ellipse Width="13"
+                                     Height="13"
+                                     Canvas.Left="43"
+                                     Canvas.Top="2"
+                                     Fill="#61CEB1" />
+
+                            <Path Data="M 10,55 L 10,28 Q 10,22 15,28 L 32,47"
+                                  Stroke="#7774FF"
+                                  StrokeThickness="11"
+                                  StrokeLineCap="Round"
+                                  StrokeJoin="Round" />
+
+                            <Path Data="M 54,55 L 54,28 Q 54,22 49,28 L 32,47"
+                                  Stroke="#61CEB1"
+                                  StrokeThickness="11"
+                                  StrokeLineCap="Round"
+                                  StrokeJoin="Round" />
+
+                            <Path Data="M 23,36 L 32,47 L 41,36"
+                                  Stroke="#5654EA"
+                                  StrokeThickness="10"
+                                  StrokeLineCap="Round"
+                                  StrokeJoin="Round" />
+
+                        </Canvas>
+                    </Viewbox>
+
+                    <TextBlock Text="Mentora"
+                               FontSize="40"
+                               FontWeight="Bold"
+                               Foreground="#19234D"
+                               VerticalAlignment="Center" />
+
+                </StackPanel>
+
+                
+
+                <TextBlock Text="Логин"
+                           Classes="fieldLabel" />
+
+                <TextBox x:Name="LoginTextBox"
+                         Classes="loginInput"
+                         Watermark="Введите логин"
+                         MaxLength="50"
+                         KeyDown="Input_KeyDown" />
+
+                <TextBlock x:Name="LoginErrorText"
+                           Classes="fieldError"
+                           IsVisible="False" />
+
+                
+
+                <TextBlock Text="Пароль"
+                           Classes="fieldLabel"
+                           Margin="0,26,0,10" />
+
+                <TextBox x:Name="PasswordTextBox"
+                         Classes="loginInput"
+                         Watermark="Введите пароль"
+                         PasswordChar="●"
+                         KeyDown="Input_KeyDown" />
+
+                <TextBlock x:Name="PasswordErrorText"
+                           Classes="fieldError"
+                           IsVisible="False" />
+                
+
+                <Border x:Name="MessageBorder"
+                        IsVisible="False"
+                        Background="#FFF1F1"
+                        CornerRadius="6"
+                        Padding="12"
+                        Margin="0,20,0,0">
+
+                    <TextBlock x:Name="MessageText"
+                               FontSize="14"
+                               Foreground="#B52C2C"
+                               TextWrapping="Wrap" />
+
+                </Border>
+
+                <Button x:Name="LoginButton"
+                        Content="Войти"
+                        Classes="primary"
+                        Margin="0,30,0,0"
+                        Padding="0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="LoginButton_Click" />
+
+                <Button x:Name="RegisterButton"
+                        Content="Зарегистрироваться"
+                        Classes="link"
+                        Margin="0,12,0,0"
+                        Click="RegisterButton_Click" />
+
+            </StackPanel>
+
+        </Grid>
+
+    </ScrollViewer>
+
+</UserControl>

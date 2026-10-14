@@ -1,0 +1,166 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.AdminDictionariesView"
+             x:CompileBindings="False">
+
+    <StackPanel x:Name="RootPanel" Spacing="16">
+
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+
+            <Button x:Name="SpecialtiesTab"
+                    Content="Специальности"
+                    Classes="navigation"
+                    Width="170"
+                    Margin="0,0,8,0"
+                    Click="SpecialtiesTab_Click" />
+
+            <Button x:Name="SectorsTab"
+                    Grid.Column="1"
+                    Content="Секторы"
+                    Classes="navigation"
+                    Width="140"
+                    Click="SectorsTab_Click" />
+
+            <Button x:Name="AddButton"
+                    Grid.Column="3"
+                    Content="Добавить"
+                    Classes="primary"
+                    Click="AddButton_Click" />
+
+        </Grid>
+
+        <TextBlock x:Name="MessageText"
+                   FontSize="14"
+                   TextWrapping="Wrap"
+                   IsVisible="False" />
+
+        <Border x:Name="FormBorder"
+                Classes="card"
+                IsVisible="False">
+
+            <StackPanel>
+
+                <TextBlock x:Name="FormTitle"
+                           FontSize="19"
+                           FontWeight="SemiBold"
+                           Foreground="#19234D" />
+
+                <TextBlock x:Name="NameLabel" Classes="label" />
+                <TextBox x:Name="NameTextBox" />
+                <TextBlock x:Name="NameError"
+                           FontSize="13"
+                           Foreground="#B52C2C"
+                           TextWrapping="Wrap"
+                           Margin="0,4,0,0"
+                           IsVisible="False" />
+
+                <StackPanel x:Name="DescriptionPanel">
+
+                    <TextBlock Text="Описание (необязательно, видно только администратору)"
+                               Classes="label" />
+
+                    <TextBox x:Name="DescriptionTextBox"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             MinHeight="80"
+                             MaxLength="500" />
+
+                    <TextBlock x:Name="DescriptionError"
+                               FontSize="13"
+                               Foreground="#B52C2C"
+                               TextWrapping="Wrap"
+                               Margin="0,4,0,0"
+                               IsVisible="False" />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            Margin="0,20,0,0">
+
+                    <Button Content="Сохранить"
+                            Classes="primary"
+                            Click="SaveButton_Click" />
+
+                    <Button Content="Отмена"
+                            Classes="link"
+                            Click="CancelButton_Click" />
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </Border>
+
+        <TextBlock x:Name="ResultsText"
+                   FontSize="14"
+                   Foreground="#747C90" />
+
+        <ItemsControl x:Name="DictionaryList">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Border Classes="card"
+                            Padding="18,14"
+                            Margin="0,0,0,10">
+
+                        <Grid ColumnDefinitions="2*,1.6*,Auto">
+
+                            <StackPanel>
+
+                                <TextBlock Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#19234D"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Text="{Binding Description}"
+                                           IsVisible="{Binding HasDescription}"
+                                           FontSize="13"
+                                           Foreground="#747C90"
+                                           TextWrapping="Wrap"
+                                           Margin="0,3,0,0" />
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="12,0">
+
+                                <TextBlock Text="{Binding StatusText}"
+                                           Foreground="{Binding StatusBrush}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold" />
+
+                                <TextBlock Text="{Binding UsedText}"
+                                           FontSize="12"
+                                           Foreground="#747C90"
+                                           Margin="0,3,0,0" />
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+
+                                <Button Content="Изменить"
+                                        Classes="link"
+                                        Tag="{Binding}"
+                                        Click="EditButton_Click" />
+
+                                <Button Content="{Binding ToggleText}"
+                                        Classes="link"
+                                        Tag="{Binding}"
+                                        Click="ToggleButton_Click" />
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </StackPanel>
+
+</UserControl>

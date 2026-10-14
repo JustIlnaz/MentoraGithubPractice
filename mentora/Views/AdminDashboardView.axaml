@@ -1,0 +1,98 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.AdminDashboardView"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+
+        <Style Selector="Border.stat">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Width" Value="210" />
+            <Setter Property="Margin" Value="0,0,16,16" />
+        </Style>
+
+        <Style Selector="TextBlock.statValue">
+            <Setter Property="FontSize" Value="32" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+        </Style>
+
+        <Style Selector="TextBlock.statLabel">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <StackPanel Spacing="14">
+
+        <Grid ColumnDefinitions="*,Auto">
+
+            <TextBlock x:Name="MessageText"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       TextWrapping="Wrap"
+                       IsVisible="False" />
+
+            <Button x:Name="RefreshButton"
+                    Grid.Column="1"
+                    Content="Обновить"
+                    Classes="link"
+                    Click="RefreshButton_Click" />
+
+        </Grid>
+
+        <WrapPanel x:Name="StatsPanel"
+                   IsVisible="False">
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="ActiveStudentsValue" Classes="statValue" />
+                    <TextBlock Text="Активных студентов" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="FreeStudentsValue" Classes="statValue" />
+                    <TextBlock Text="Свободных студентов (коуч ещё не найден)" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="ActiveCoachesValue" Classes="statValue" />
+                    <TextBlock Text="Активных коучей" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="FreeCoachesValue" Classes="statValue" />
+                    <TextBlock Text="Коучей без студента" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="ActiveAssignmentsValue" Classes="statValue" />
+                    <TextBlock Text="Активных назначений" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="stat">
+                <StackPanel>
+                    <TextBlock x:Name="CompletedAssignmentsValue" Classes="statValue" />
+                    <TextBlock Text="Завершённых назначений" Classes="statLabel" />
+                </StackPanel>
+            </Border>
+
+        </WrapPanel>
+
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,171 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="mentora.Views.AdminCreateAssignmentWindow"
+        Title="Новое назначение"
+        Width="560"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Background="#E8EBFF">
+
+    <Window.Styles>
+
+        <Style Selector="Button.primary">
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.outline">
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#39446B" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="24" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+
+        <Style Selector="TextBlock.error">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#B52C2C" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+    </Window.Styles>
+
+    <StackPanel x:Name="ContentPanel"
+                Margin="24"
+                Spacing="16">
+
+        <TextBlock Text="Новое назначение"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Foreground="#19234D" />
+
+        <Border x:Name="MessageBorder"
+                Classes="card"
+                IsVisible="False">
+
+            <TextBlock x:Name="MessageText"
+                       FontSize="14"
+                       TextWrapping="Wrap" />
+
+        </Border>
+
+        <Border Classes="card">
+
+            <StackPanel Spacing="4">
+
+                <TextBlock Text="Студент (1 курс, без активного назначения) *"
+                           Classes="label" />
+
+                <TextBox x:Name="StudentSearchBox"
+                         Watermark="Поиск по логину"
+                         MaxLength="50"
+                         TextChanged="StudentSearchBox_TextChanged" />
+
+                <ComboBox x:Name="StudentComboBox"
+                          Margin="0,8,0,0" />
+
+                <TextBlock x:Name="StudentEmptyText"
+                           Text="Подходящих студентов не найдено."
+                           FontSize="13"
+                           Foreground="#747C90"
+                           IsVisible="False" />
+
+                <TextBlock x:Name="StudentError"
+                           Classes="error"
+                           IsVisible="False" />
+
+                <TextBlock Text="Коуч (2–4 курс, без активного назначения) *"
+                           Classes="label"
+                           Margin="0,20,0,4" />
+
+                <TextBox x:Name="CoachSearchBox"
+                         Watermark="Поиск по логину"
+                         MaxLength="50"
+                         TextChanged="CoachSearchBox_TextChanged" />
+
+                <ComboBox x:Name="CoachComboBox"
+                          Margin="0,8,0,0" />
+
+                <TextBlock x:Name="CoachEmptyText"
+                           Text="Подходящих коучей не найдено."
+                           FontSize="13"
+                           Foreground="#747C90"
+                           IsVisible="False" />
+
+                <TextBlock x:Name="CoachError"
+                           Classes="error"
+                           IsVisible="False" />
+
+                <TextBlock Text="При ручном назначении специальности студента и коуча не обязаны совпадать."
+                           FontSize="12"
+                           Foreground="#747C90"
+                           TextWrapping="Wrap"
+                           Margin="0,16,0,0" />
+
+            </StackPanel>
+
+        </Border>
+
+        <Grid ColumnDefinitions="*,12,*">
+
+            <Button Content="Отмена"
+                    Classes="outline"
+                    Click="CancelButton_Click" />
+
+            <Button Grid.Column="2"
+                    Content="Создать назначение"
+                    Classes="primary"
+                    Click="CreateButton_Click" />
+
+        </Grid>
+
+    </StackPanel>
+
+</Window>

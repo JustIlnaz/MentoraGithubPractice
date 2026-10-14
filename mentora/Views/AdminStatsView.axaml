@@ -1,0 +1,201 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.AdminStatsView"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+        <Style Selector="Border.stat">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="0,0,14,14" />
+        </Style>
+        <Style Selector="TextBlock.statValue">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+        </Style>
+        <Style Selector="TextBlock.statLabel">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel x:Name="RootPanel" Spacing="16">
+
+        <Border Classes="card">
+            <Grid ColumnDefinitions="*,*,Auto">
+
+                <StackPanel Margin="0,0,12,0">
+                    <TextBlock Text="Период с" Classes="label" Margin="0,0,0,4" />
+                    <DatePicker x:Name="DateFromPicker" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="0,0,12,0">
+                    <TextBlock Text="Период по" Classes="label" Margin="0,0,0,4" />
+                    <DatePicker x:Name="DateToPicker" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Bottom">
+                    <Button Content="Показать" Classes="primary" Click="ShowButton_Click" />
+                    <Button Content="Весь период" Classes="link" Click="AllButton_Click" />
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <TextBlock x:Name="MessageText" FontSize="14" TextWrapping="Wrap" IsVisible="False" />
+
+        <TextBlock x:Name="PeriodText" FontSize="14" Foreground="#747C90" />
+
+        <WrapPanel x:Name="StatsPanel" IsVisible="False">
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="NewStudentsValue" Classes="statValue" />
+                <TextBlock Text="Новых студентов" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="NewCoachesValue" Classes="statValue" />
+                <TextBlock Text="Новых коучей" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="CreatedValue" Classes="statValue" />
+                <TextBlock Text="Создано назначений" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="CompletedValue" Classes="statValue" />
+                <TextBlock Text="Завершено назначений" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="CancelledValue" Classes="statValue" />
+                <TextBlock Text="Отменено назначений" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="MeetingsValue" Classes="statValue" />
+                <TextBlock Text="Проведено встреч" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="ActiveNowValue" Classes="statValue" />
+                <TextBlock Text="Активных назначений сейчас" Classes="statLabel" />
+            </StackPanel></Border>
+
+            <Border Classes="stat"><StackPanel>
+                <TextBlock x:Name="FreeNowValue" Classes="statValue" />
+                <TextBlock Text="Свободных студентов сейчас" Classes="statLabel" />
+            </StackPanel></Border>
+
+        </WrapPanel>
+
+        <Grid x:Name="TablesPanel" ColumnDefinitions="*,16,*,16,*" IsVisible="False">
+
+            <Border Classes="card" VerticalAlignment="Top">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Назначения по специальностям" FontSize="16" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                    <TextBlock x:Name="BySpecialtyEmpty" Text="Нет данных" FontSize="13" Foreground="#747C90" IsVisible="False" />
+                    <ItemsControl x:Name="BySpecialtyList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#19234D" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Count}" FontSize="14" FontWeight="SemiBold" Foreground="#5B4BFF" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Classes="card" VerticalAlignment="Top">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Назначения по секторам" FontSize="16" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                    <TextBlock x:Name="BySectorEmpty" Text="Нет данных" FontSize="13" Foreground="#747C90" IsVisible="False" />
+                    <ItemsControl x:Name="BySectorList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#19234D" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Count}" FontSize="14" FontWeight="SemiBold" Foreground="#5B4BFF" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Classes="card" VerticalAlignment="Top">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Свободные студенты по специальностям" FontSize="16" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                    <TextBlock x:Name="FreeEmpty" Text="Нет данных" FontSize="13" Foreground="#747C90" IsVisible="False" />
+                    <ItemsControl x:Name="FreeList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#19234D" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Count}" FontSize="14" FontWeight="SemiBold" Foreground="#5B4BFF" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+        <Border x:Name="FreeStudentsBorder"
+                Classes="card"
+                IsVisible="False">
+
+            <StackPanel Spacing="8">
+
+                <TextBlock Text="Студенты, которым ещё не назначен коуч"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#19234D" />
+
+                <TextBlock x:Name="FreeStudentsNote"
+                           FontSize="13"
+                           Foreground="#747C90"
+                           TextWrapping="Wrap" />
+
+                <ItemsControl x:Name="FreeStudentsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="2*,2*,*" Margin="0,0,0,6">
+
+                                <TextBlock Text="{Binding Login}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#19234D"
+                                           TextTrimming="CharacterEllipsis" />
+
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding ProfileText}"
+                                           FontSize="14"
+                                           Foreground="#19234D"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding DateText}"
+                                           FontSize="13"
+                                           Foreground="#747C90" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+
+        </Border>
+
+    </StackPanel>
+
+</UserControl>

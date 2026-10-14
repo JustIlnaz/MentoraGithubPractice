@@ -1,0 +1,189 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.AdminAssignmentsView"
+             x:CompileBindings="False">
+
+    <StackPanel Spacing="16">
+
+        <Grid ColumnDefinitions="*,Auto">
+
+            <TextBlock x:Name="MessageText"
+                       FontSize="14"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       IsVisible="False" />
+
+            <Button Grid.Column="1"
+                    Content="Создать назначение"
+                    Classes="primary"
+                    Click="CreateButton_Click" />
+
+        </Grid>
+
+        <Border Classes="card">
+
+            <StackPanel x:Name="FiltersPanel">
+
+                <Grid ColumnDefinitions="*,*,*"
+                      RowDefinitions="Auto,Auto,Auto">
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,12,12">
+                        <TextBlock Text="Статус назначения" Classes="label" Margin="0,0,0,4" />
+                        <ComboBox x:Name="StatusFilter" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,12,12">
+                        <TextBlock Text="Специальность студента" Classes="label" Margin="0,0,0,4" />
+                        <ComboBox x:Name="SpecialtyFilter" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,12">
+                        <TextBlock Text="Сектор студента" Classes="label" Margin="0,0,0,4" />
+                        <ComboBox x:Name="SectorFilter" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,12,12">
+                        <TextBlock Text="Логин коуча" Classes="label" Margin="0,0,0,4" />
+                        <TextBox x:Name="CoachSearchBox"
+                                 MaxLength="50"
+                                 KeyDown="SearchBox_KeyDown" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,12,12">
+                        <TextBlock Text="Логин студента" Classes="label" Margin="0,0,0,4" />
+                        <TextBox x:Name="StudentSearchBox"
+                                 MaxLength="50"
+                                 KeyDown="SearchBox_KeyDown" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,12">
+                        <TextBlock Text="Сортировка" Classes="label" Margin="0,0,0,4" />
+                        <ComboBox x:Name="SortFilter" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,12,0">
+                        <TextBlock Text="Создано с" Classes="label" Margin="0,0,0,4" />
+                        <DatePicker x:Name="DateFromPicker"
+                                    HorizontalAlignment="Stretch" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,12,0">
+                        <TextBlock Text="Создано по" Classes="label" Margin="0,0,0,4" />
+                        <DatePicker x:Name="DateToPicker"
+                                    HorizontalAlignment="Stretch" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="8"
+                                VerticalAlignment="Bottom">
+
+                        <Button Content="Найти"
+                                Classes="primary"
+                                Click="SearchButton_Click" />
+
+                        <Button Content="Сбросить"
+                                Classes="link"
+                                Click="ResetButton_Click" />
+
+                    </StackPanel>
+
+                </Grid>
+
+            </StackPanel>
+
+        </Border>
+
+        <TextBlock x:Name="ResultsText"
+                   FontSize="14"
+                   Foreground="#747C90" />
+
+        <ItemsControl x:Name="AssignmentsList">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Border Classes="card"
+                            Padding="18,14"
+                            Margin="0,0,0,10">
+
+                        <Grid ColumnDefinitions="2*,2*,1.4*,Auto">
+
+                            <StackPanel>
+                                <TextBlock Text="{Binding StudentText}"
+                                           FontSize="15"
+                                           FontWeight="SemiBold"
+                                           Foreground="#19234D"
+                                           TextTrimming="CharacterEllipsis" />
+
+                                <TextBlock Text="{Binding CoachText}"
+                                           FontSize="14"
+                                           Foreground="#19234D"
+                                           TextTrimming="CharacterEllipsis"
+                                           Margin="0,3,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="12,0">
+                                <TextBlock Text="{Binding ProfileText}"
+                                           FontSize="14"
+                                           Foreground="#19234D"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Text="{Binding CreatedText}"
+                                           FontSize="13"
+                                           Foreground="#747C90"
+                                           Margin="0,3,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="{Binding StatusName}"
+                                           Foreground="{Binding StatusBrush}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold" />
+
+                                <TextBlock Text="{Binding ClosedText}"
+                                           FontSize="12"
+                                           Foreground="#747C90"
+                                           TextWrapping="Wrap"
+                                           Margin="0,3,0,0" />
+                            </StackPanel>
+
+                            <Button Grid.Column="3"
+                                    Content="Открыть"
+                                    Classes="link"
+                                    VerticalAlignment="Center"
+                                    Tag="{Binding}"
+                                    Click="OpenButton_Click" />
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Grid x:Name="PaginationPanel"
+              ColumnDefinitions="Auto,*,Auto"
+              IsVisible="False">
+
+            <Button x:Name="PreviousButton"
+                    Content="Назад"
+                    Classes="link"
+                    Click="PreviousButton_Click" />
+
+            <TextBlock x:Name="PageNumberText"
+                       Grid.Column="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="#747C90" />
+
+            <Button x:Name="NextButton"
+                    Grid.Column="2"
+                    Content="Далее"
+                    Classes="link"
+                    Click="NextButton_Click" />
+
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

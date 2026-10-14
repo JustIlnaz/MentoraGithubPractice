@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="mentora/App.axaml" value="mentora/mentora.csproj" />
+        <entry key="mentora/MainWindow.axaml" value="mentora/mentora.csproj" />
+        <entry key="mentora/Views/CoachView.axaml" value="mentora/mentora.csproj" />
+        <entry key="mentora/Views/LoginView.axaml" value="mentora/mentora.csproj" />
+        <entry key="mentora/Views/RegistrationView.axaml" value="mentora/mentora.csproj" />
+        <entry key="mentora/Views/StudentView.axaml" value="mentora/mentora.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

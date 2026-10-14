@@ -1,0 +1,329 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="mentora.Views.AdminAssignmentWindow"
+        x:CompileBindings="False"
+        Title="Назначение"
+        Width="700"
+        Height="760"
+        MinWidth="480"
+        MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#E8EBFF">
+
+    <Window.Styles>
+
+        <Style Selector="Button.primary">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.danger">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#B52C2C" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.danger:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#9C2323" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.outline">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#39446B" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#DDE1FF" />
+            <Setter Property="Foreground" Value="#4D3DEB" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="24" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="Margin" Value="0,12,0,4" />
+        </Style>
+
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+    </Window.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+
+        <StackPanel x:Name="ContentPanel"
+                    Margin="24"
+                    Spacing="16">
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <TextBlock x:Name="TitleText"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           Foreground="#19234D"
+                           VerticalAlignment="Center" />
+
+                <Button Grid.Column="1"
+                        Content="Закрыть"
+                        Classes="link"
+                        Click="CloseButton_Click" />
+
+            </Grid>
+
+            <Border x:Name="MessageBorder"
+                    Classes="card"
+                    IsVisible="False">
+
+                <TextBlock x:Name="MessageText"
+                           FontSize="14"
+                           TextWrapping="Wrap" />
+
+            </Border>
+
+            <Border Classes="card">
+
+                <StackPanel>
+
+                    <TextBlock Text="Сведения о назначении"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D" />
+
+                    <TextBlock Text="Статус" Classes="label" />
+                    <TextBlock x:Name="StatusValue"
+                               Classes="value"
+                               FontWeight="SemiBold" />
+
+                    <TextBlock Text="Создано" Classes="label" />
+                    <TextBlock x:Name="CreatedValue" Classes="value" />
+
+                    <TextBlock Text="Кем создано" Classes="label" />
+                    <TextBlock x:Name="CreatedByValue" Classes="value" />
+
+                    <StackPanel x:Name="ClosedPanel" IsVisible="False">
+
+                        <TextBlock Text="Закрыто" Classes="label" />
+                        <TextBlock x:Name="ClosedValue" Classes="value" />
+
+                        <TextBlock Text="Кем закрыто" Classes="label" />
+                        <TextBlock x:Name="ClosedByValue" Classes="value" />
+
+                        <TextBlock x:Name="ReasonLabel" Classes="label" />
+                        <TextBlock x:Name="ReasonValue" Classes="value" />
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Border>
+
+            <Grid ColumnDefinitions="*,16,*">
+
+                <Border Classes="card" VerticalAlignment="Top">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Студент"
+                                   FontSize="19"
+                                   FontWeight="SemiBold"
+                                   Foreground="#19234D" />
+
+                        <TextBlock Text="Логин" Classes="label" />
+                        <TextBlock x:Name="StudentLoginValue" Classes="value" />
+
+                        <TextBlock Text="Курс" Classes="label" />
+                        <TextBlock x:Name="StudentCourseValue" Classes="value" />
+
+                        <TextBlock Text="Специальность и сектор" Classes="label" />
+                        <TextBlock x:Name="StudentProfileValue" Classes="value" />
+
+                        <TextBlock Text="Академическая цель" Classes="label" />
+                        <TextBlock x:Name="StudentGoalValue" Classes="value" />
+
+                        <TextBlock Text="Интерес" Classes="label" />
+                        <TextBlock x:Name="StudentInterestValue" Classes="value" />
+
+                    </StackPanel>
+
+                </Border>
+
+                <Border Grid.Column="2" Classes="card" VerticalAlignment="Top">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Коуч"
+                                   FontSize="19"
+                                   FontWeight="SemiBold"
+                                   Foreground="#19234D" />
+
+                        <TextBlock Text="Логин" Classes="label" />
+                        <TextBlock x:Name="CoachLoginValue" Classes="value" />
+
+                        <TextBlock Text="Курс" Classes="label" />
+                        <TextBlock x:Name="CoachCourseValue" Classes="value" />
+
+                        <TextBlock Text="Специальность и сектор" Classes="label" />
+                        <TextBlock x:Name="CoachProfileValue" Classes="value" />
+
+                        <TextBlock Text="Академическая цель" Classes="label" />
+                        <TextBlock x:Name="CoachGoalValue" Classes="value" />
+
+                        <TextBlock Text="Интерес" Classes="label" />
+                        <TextBlock x:Name="CoachInterestValue" Classes="value" />
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+            <Border Classes="card">
+
+                <StackPanel Spacing="10">
+
+                    <TextBlock Text="Встречи"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D" />
+
+                    <TextBlock x:Name="MeetingsCountText"
+                               FontSize="13"
+                               Foreground="#747C90" />
+
+                    <TextBlock x:Name="NoMeetingsText"
+                               Text="Встреч пока нет."
+                               FontSize="14"
+                               Foreground="#747C90"
+                               IsVisible="False" />
+
+                    <ItemsControl x:Name="MeetingsList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <Border Background="#F3F4FF"
+                                        CornerRadius="6"
+                                        Padding="14,10"
+                                        Margin="0,0,0,8">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="{Binding DateText}"
+                                                   FontSize="12"
+                                                   Foreground="#747C90" />
+
+                                        <TextBlock Text="{Binding Topic}"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#19234D"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,3,0,0" />
+
+                                        <TextBlock Text="{Binding Summary}"
+                                                   FontSize="14"
+                                                   Foreground="#19234D"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,4,0,0" />
+
+                                        <TextBlock Text="В архиве"
+                                                   IsVisible="{Binding IsArchived}"
+                                                   FontSize="12"
+                                                   Foreground="#B52C2C"
+                                                   Margin="0,4,0,0" />
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </Border>
+
+            <Border x:Name="ActionsBorder"
+                    Classes="card"
+                    IsVisible="False">
+
+                <StackPanel>
+
+                    <TextBlock Text="Действия"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D"
+                               Margin="0,0,0,14" />
+
+                    <WrapPanel>
+
+                        <Button Content="Завершить"
+                                Classes="primary"
+                                Margin="0,0,10,10"
+                                Click="CompleteButton_Click" />
+
+                        <Button Content="Перенести к другому коучу"
+                                Classes="outline"
+                                Margin="0,0,10,10"
+                                Click="TransferButton_Click" />
+
+                        <Button Content="Отменить назначение"
+                                Classes="danger"
+                                Margin="0,0,10,10"
+                                Click="CancelAssignmentButton_Click" />
+
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </Border>
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+</Window>

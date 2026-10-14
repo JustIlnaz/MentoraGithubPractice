@@ -1,0 +1,351 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.RegistrationView"
+             x:CompileBindings="False"
+             Background="White">
+
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="Margin" Value="0,16,0,7" />
+        </Style>
+
+        <Style Selector="TextBlock.error">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#B52C2C" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#19234D" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style Selector="Button.primary">
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#F3F1FF" />
+            <Setter Property="Foreground" Value="#4D3DEB" />
+        </Style>
+
+        <Style Selector="Button.roleCard">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="22" />
+            <Setter Property="MinHeight" Value="125" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.roleCard:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#F4F2FF" />
+            <Setter Property="BorderBrush" Value="#5B4BFF" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+
+        <StackPanel Margin="32"
+                    MaxWidth="660"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+            
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="10"
+                        Margin="0,0,0,28">
+
+                <Viewbox Width="48" Height="48">
+                    <Canvas Width="64" Height="64">
+
+                        <Ellipse Width="13" Height="13"
+                                 Canvas.Left="8" Canvas.Top="2"
+                                 Fill="#6554FF" />
+
+                        <Ellipse Width="13" Height="13"
+                                 Canvas.Left="43" Canvas.Top="2"
+                                 Fill="#61CEB1" />
+
+                        <Path Data="M 10,55 L 10,28 Q 10,22 15,28 L 32,47"
+                              Stroke="#7774FF"
+                              StrokeThickness="11"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round" />
+
+                        <Path Data="M 54,55 L 54,28 Q 54,22 49,28 L 32,47"
+                              Stroke="#61CEB1"
+                              StrokeThickness="11"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round" />
+
+                        <Path Data="M 23,36 L 32,47 L 41,36"
+                              Stroke="#5654EA"
+                              StrokeThickness="10"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round" />
+
+                    </Canvas>
+                </Viewbox>
+
+                <TextBlock Text="Mentora"
+                           FontSize="34"
+                           FontWeight="Bold"
+                           Foreground="#19234D"
+                           VerticalAlignment="Center" />
+
+            </StackPanel>
+            
+
+            <StackPanel x:Name="RolePanel">
+
+                <TextBlock Text="Выберите роль, чтобы продолжить"
+                           FontSize="18"
+                           Foreground="#19234D"
+                           Margin="0,0,0,22"
+                           TextWrapping="Wrap" />
+
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <Button Grid.Column="0"
+                            Classes="roleCard"
+                            Click="StudentButton_Click">
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Я студент"
+                                       FontSize="21"
+                                       FontWeight="SemiBold"
+                                       Foreground="#19234D" />
+
+                            <TextBlock Text="Первый курс. Ищу коуча для наставничества."
+                                       FontSize="14"
+                                       Foreground="#70788C"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                    </Button>
+
+                    <Button Grid.Column="2"
+                            Classes="roleCard"
+                            Click="CoachButton_Click">
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Я коуч"
+                                       FontSize="21"
+                                       FontWeight="SemiBold"
+                                       Foreground="#19234D" />
+
+                            <TextBlock Text="2–4 курс. Хочу стать наставником для студента."
+                                       FontSize="14"
+                                       Foreground="#70788C"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                    </Button>
+
+                </Grid>
+
+                <Button Content="Уже есть аккаунт? Войти"
+                        Classes="link"
+                        Margin="0,22,0,0"
+                        Click="BackToLogin_Click" />
+
+            </StackPanel>
+            
+
+            <StackPanel x:Name="FormPanel"
+                        IsVisible="False"
+                        MaxWidth="440"
+                        HorizontalAlignment="Stretch">
+
+                <TextBlock x:Name="FormTitle"
+                           Text="Регистрация"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="#19234D" />
+
+                <TextBlock Text="Поля со звёздочкой обязательны."
+                           FontSize="13"
+                           Foreground="#70788C"
+                           Margin="0,8,0,0" />
+
+                <StackPanel x:Name="FormFields">
+
+                    <TextBlock Text="Курс *" Classes="label" />
+
+                    <ComboBox x:Name="CourseComboBox" />
+
+                    <TextBlock x:Name="CourseError"
+                               Classes="error" />
+
+                    <TextBlock Text="Логин *" Classes="label" />
+
+                    <TextBox x:Name="LoginTextBox"
+                             Watermark="От 4 до 50 символов"
+                             MaxLength="50" />
+
+                    <TextBlock x:Name="LoginError"
+                               Classes="error" />
+
+                    <TextBlock Text="Пароль *" Classes="label" />
+
+                    <TextBox x:Name="PasswordTextBox"
+                             Watermark="Не менее 8 символов: буквы и цифры"
+                             PasswordChar="●" />
+
+                    <TextBlock x:Name="PasswordError"
+                               Classes="error" />
+
+                    <TextBlock Text="Академическая цель *"
+                               Classes="label" />
+
+                    <TextBox x:Name="GoalTextBox"
+                             Watermark="Например: подготовиться к олимпиаде"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="80"
+                             MaxLength="500" />
+
+                    <TextBlock x:Name="GoalError"
+                               Classes="error" />
+
+                    <TextBlock Text="Интерес *" Classes="label" />
+
+                    <TextBox x:Name="InterestTextBox"
+                             Watermark="Например: программирование, робототехника"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="70"
+                             MaxLength="300" />
+
+                    <TextBlock x:Name="InterestError"
+                               Classes="error" />
+
+                    <TextBlock Text="Сектор *" Classes="label" />
+
+                    <ComboBox x:Name="SectorComboBox"
+                              PlaceholderText="Выберите сектор">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock x:Name="SectorError"
+                               Classes="error" />
+
+                    <TextBlock Text="Специальность *"
+                               Classes="label" />
+
+                    <ComboBox x:Name="SpecialtyComboBox"
+                              PlaceholderText="Выберите специальность">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Abbreviation}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock x:Name="SpecialtyError"
+                               Classes="error" />
+
+                </StackPanel>
+
+                <Border x:Name="MessageBorder"
+                        IsVisible="False"
+                        Background="#FFF1F1"
+                        CornerRadius="6"
+                        Padding="12"
+                        Margin="0,16,0,0">
+
+                    <TextBlock x:Name="MessageText"
+                               Foreground="#B52C2C"
+                               FontSize="13"
+                               TextWrapping="Wrap" />
+
+                </Border>
+
+                <Button x:Name="ReloadButton"
+                        Content="Обновить списки специальностей и секторов"
+                        Classes="link"
+                        Margin="0,8,0,0"
+                        Click="ReloadButton_Click" />
+
+                <Button x:Name="SaveButton"
+                        Content="Зарегистрироваться"
+                        Classes="primary"
+                        Margin="0,16,0,0"
+                        Click="SaveButton_Click" />
+
+                <Button x:Name="ChangeRoleButton"
+                        Content="Изменить роль"
+                        Classes="link"
+                        Margin="0,8,0,0"
+                        Click="ChangeRoleButton_Click" />
+
+                <Button x:Name="BackButton"
+                        Content="Вернуться ко входу"
+                        Classes="link"
+                        Click="BackToLogin_Click" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+</UserControl>

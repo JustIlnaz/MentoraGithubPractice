@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.AdminSettingsView"
+             x:CompileBindings="False">
+
+    <StackPanel x:Name="RootPanel"
+                Spacing="16"
+                MaxWidth="720"
+                HorizontalAlignment="Left">
+
+        <TextBlock x:Name="MessageText"
+                   FontSize="14"
+                   TextWrapping="Wrap"
+                   IsVisible="False" />
+
+        <Border Classes="card">
+
+            <StackPanel Spacing="20">
+
+                <TextBlock Text="Правила программы"
+                           FontSize="19"
+                           FontWeight="SemiBold"
+                           Foreground="#19234D" />
+
+                <StackPanel Spacing="4">
+                    <CheckBox x:Name="SameSpecialtyCheck"
+                              Content="Коуч и студент должны быть одной специальности" />
+
+                    <TextBlock Text="Если включено, коуч видит в поиске только студентов своей специальности."
+                               FontSize="13"
+                               Foreground="#747C90"
+                               TextWrapping="Wrap"
+                               Margin="28,0,0,0" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <CheckBox x:Name="CoachCompleteCheck"
+                              Content="Коуч может сам завершать работу со студентом" />
+
+                    <TextBlock Text="Если включено, в кабинете коуча появляется кнопка «Завершить работу со студентом»."
+                               FontSize="13"
+                               Foreground="#747C90"
+                               TextWrapping="Wrap"
+                               Margin="28,0,0,0" />
+                </StackPanel>
+
+                <TextBlock x:Name="UpdatedText"
+                           FontSize="13"
+                           Foreground="#747C90"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Text="Изменения действуют на новые действия. Уже созданные назначения не меняются."
+                           FontSize="13"
+                           Foreground="#747C90"
+                           TextWrapping="Wrap" />
+
+                <Button Content="Сохранить настройки"
+                        Classes="primary"
+                        HorizontalAlignment="Left"
+                        Click="SaveButton_Click" />
+
+            </StackPanel>
+
+        </Border>
+
+    </StackPanel>
+
+</UserControl>

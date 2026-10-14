@@ -1,0 +1,473 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="mentora.Views.CoachView"
+             x:CompileBindings="False"
+             Background="#E8EBFF">
+
+    <UserControl.Styles>
+
+        <Style Selector="Button.navigation">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Height" Value="44" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        
+
+        <Style Selector="Button.navigation.selected">
+            <Setter Property="Background" Value="#E8E9FF" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+        </Style>
+
+        <Style Selector="Button.navigation:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#F1F0FF" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+        </Style>
+
+        <Style Selector="Button.primary">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#DDE1FF" />
+            <Setter Property="Foreground" Value="#4D3DEB" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="24" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="Margin" Value="0,12,0,4" />
+        </Style>
+
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="190,*">
+
+        <Border Background="White" Padding="12,30">
+
+            <StackPanel Spacing="10">
+
+                <TextBlock Text="Mentora"
+                           FontSize="25"
+                           FontWeight="Bold"
+                           Foreground="#19234D"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30" />
+
+                <Button x:Name="ProfileButton"
+                        Content="Мой профиль"
+                        Classes="navigation selected"
+                        Click="ProfileButton_Click" />
+
+                <Button x:Name="StudentsButton"
+                        Content="Студенты"
+                        Classes="navigation"
+                        Click="StudentsButton_Click" />
+
+            </StackPanel>
+
+        </Border>
+
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,*"
+              Margin="28,20,28,28">
+
+            <Grid ColumnDefinitions="*,Auto,Auto"
+                  Margin="0,0,0,24">
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Коуч"
+                               Foreground="#19234D"
+                               FontSize="13" />
+
+                    <TextBlock x:Name="HeaderNameText"
+                               Foreground="#747C90"
+                               FontSize="13"
+                               Margin="0,4,12,0"
+                               TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+
+                <Button x:Name="RefreshButton"
+                        Grid.Column="1"
+                        Content="Обновить"
+                        Classes="link"
+                        Click="RefreshButton_Click" />
+
+                <Button Grid.Column="2"
+                        Content="Выйти"
+                        Classes="link"
+                        Click="LogoutButton_Click" />
+
+            </Grid>
+
+            <ScrollViewer Grid.Row="1"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+
+                <StackPanel Spacing="18">
+
+                    <TextBlock x:Name="PageTitleText"
+                               Text="Мой профиль"
+                               FontSize="25"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D" />
+
+                    <Border x:Name="MessageBorder"
+                            Classes="card"
+                            IsVisible="False">
+
+                        <TextBlock x:Name="MessageText"
+                                   FontSize="14"
+                                   TextWrapping="Wrap" />
+
+                    </Border>
+
+                    <Grid x:Name="DataContainer"
+                          IsVisible="False">
+
+                        <Grid x:Name="ProfilePanel"
+                              ColumnDefinitions="*,18,*">
+
+                            <Border Classes="card">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Мой профиль"
+                                               FontSize="21"
+                                               FontWeight="SemiBold"
+                                               Foreground="#19234D" />
+
+                                    <TextBlock Text="Логин" Classes="label" />
+                                    <TextBlock x:Name="LoginValue"
+                                               Classes="value" />
+
+                                    <TextBlock Text="Курс" Classes="label" />
+                                    <TextBlock x:Name="CourseValue"
+                                               Classes="value" />
+
+                                    <TextBlock Text="Специальность"
+                                               Classes="label" />
+                                    <TextBlock x:Name="SpecialtyValue"
+                                               Classes="value" />
+
+                                    <TextBlock Text="Сектор" Classes="label" />
+                                    <TextBlock x:Name="SectorValue"
+                                               Classes="value" />
+
+                                    <TextBlock Text="Академическая цель"
+                                               Classes="label" />
+                                    <TextBlock x:Name="GoalValue"
+                                               Classes="value" />
+
+                                    <TextBlock Text="Интерес" Classes="label" />
+                                    <TextBlock x:Name="InterestValue"
+                                               Classes="value" />
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <Border Grid.Column="2" Classes="card">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Студент"
+                                               FontSize="21"
+                                               FontWeight="SemiBold"
+                                               Foreground="#19234D" />
+
+                                    <StackPanel x:Name="NoStudentPanel"
+                                                Spacing="16"
+                                                Margin="0,20,0,0">
+
+                                        <TextBlock Text="Студент пока не выбран."
+                                                   Classes="value" />
+
+                                        <TextBlock
+                                            Text="Найдите свободного студента по специальности и закрепите его за собой."
+                                            FontSize="14"
+                                            Foreground="#747C90"
+                                            TextWrapping="Wrap" />
+
+                                        <Button Content="Найти студента"
+                                                Classes="primary"
+                                                Click="StudentsButton_Click" />
+
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="StudentCard"
+                                                IsVisible="False">
+
+                                        <TextBlock Text="Логин" Classes="label" />
+                                        <TextBlock x:Name="StudentLoginValue"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Курс" Classes="label" />
+                                        <TextBlock Text="1 курс"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Специальность"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="StudentSpecialtyValue"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Сектор"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="StudentSectorValue"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Академическая цель"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="StudentGoalValue"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Интерес"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="StudentInterestValue"
+                                                   Classes="value" />
+
+                                        <TextBlock Text="Студент закреплён за вами"
+                                                   Foreground="#278450"
+                                                   FontSize="14"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,22,0,0" />
+
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </Grid>
+
+
+                        <StackPanel x:Name="SearchPanel"
+                                    IsVisible="False"
+                                    Spacing="18">
+
+                            <Border Classes="card">
+
+                                <StackPanel x:Name="FiltersPanel">
+
+                                    <Grid ColumnDefinitions="*,16,*">
+
+                                        <StackPanel>
+                                            <TextBlock Text="Специальность *"
+                                                       Classes="label" />
+
+                                            <ComboBox x:Name="SpecialtyFilter"
+                                                      PlaceholderText="Выберите">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Abbreviation}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Сектор"
+                                                       Classes="label" />
+
+                                            <ComboBox x:Name="SectorFilter"
+                                                      PlaceholderText="Все секторы">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="*,16,*">
+
+                                        <StackPanel>
+                                            <TextBlock Text="Академическая цель"
+                                                       Classes="label" />
+
+                                            <TextBox x:Name="GoalFilter"
+                                                     Watermark="Введите текст"
+                                                     MaxLength="500" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Интерес"
+                                                       Classes="label" />
+
+                                            <TextBox x:Name="InterestFilter"
+                                                     Watermark="Введите текст"
+                                                     MaxLength="300" />
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="10"
+                                                Margin="0,18,0,0">
+
+                                        <Button Content="Найти"
+                                                Classes="primary"
+                                                Click="SearchButton_Click" />
+
+                                        <Button Content="Сбросить"
+                                                Classes="link"
+                                                Click="ResetButton_Click" />
+
+                                    </StackPanel>
+
+                                    <TextBlock x:Name="RestrictionText"
+                                               IsVisible="False"
+                                               Text="Администратор разрешил выбор только своей специальности."
+                                               FontSize="12"
+                                               Foreground="#747C90"
+                                               TextWrapping="Wrap"
+                                               Margin="0,12,0,0" />
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <TextBlock x:Name="ResultsText"
+                                       Foreground="#39446B"
+                                       FontSize="14"
+                                       TextWrapping="Wrap" />
+
+                            <ItemsControl x:Name="StudentsList">
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <Border Classes="card"
+                                                Margin="0,0,0,14">
+
+                                            <StackPanel Spacing="10">
+
+                                                <TextBlock Text="{Binding Login}"
+                                                           FontSize="19"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#19234D" />
+
+                                                <TextBlock Text="{Binding Details}"
+                                                           FontSize="13"
+                                                           Foreground="#747C90"
+                                                           TextWrapping="Wrap" />
+
+                                                <TextBlock Text="Академическая цель"
+                                                           Classes="label" />
+                                                <TextBlock Text="{Binding AcademicGoal}"
+                                                           Classes="value" />
+
+                                                <TextBlock Text="Интерес"
+                                                           Classes="label" />
+                                                <TextBlock Text="{Binding Interest}"
+                                                           Classes="value" />
+
+                                                <Button Content="Открыть"
+                                                        Classes="primary"
+                                                        HorizontalAlignment="Left"
+                                                        Margin="0,8,0,0"
+                                                        Tag="{Binding}"
+                                                        Click="OpenStudentButton_Click" />
+
+                                            </StackPanel>
+
+                                        </Border>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+
+                            <Grid x:Name="PaginationPanel"
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  IsVisible="False">
+
+                                <Button x:Name="PreviousButton"
+                                        Content="Назад"
+                                        Classes="link"
+                                        Click="PreviousButton_Click" />
+
+                                <TextBlock x:Name="PageNumberText"
+                                           Grid.Column="1"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="#747C90" />
+
+                                <Button x:Name="NextButton"
+                                        Grid.Column="2"
+                                        Content="Далее"
+                                        Classes="link"
+                                        Click="NextButton_Click" />
+
+                            </Grid>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

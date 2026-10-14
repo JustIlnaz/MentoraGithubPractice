@@ -1,0 +1,300 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="mentora.Views.AdminUserWindow"
+        Title="Карточка пользователя"
+        Width="620"
+        Height="720"
+        MinWidth="420"
+        MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#E8EBFF">
+
+    <Window.Styles>
+
+        <Style Selector="Button.primary">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#5B4BFF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4D3DEB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.danger">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#B52C2C" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.danger:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#9C2323" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.outline">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#39446B" />
+            <Setter Property="BorderBrush" Value="#DDE0E8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5B4BFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#DDE1FF" />
+            <Setter Property="Foreground" Value="#4D3DEB" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="24" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#747C90" />
+            <Setter Property="Margin" Value="0,12,0,4" />
+        </Style>
+
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="#19234D" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style Selector="TextBlock.error">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#B52C2C" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="#F3F4FF" />
+        </Style>
+
+    </Window.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+
+        <StackPanel x:Name="ContentPanel"
+                    Margin="24"
+                    Spacing="16">
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <TextBlock x:Name="TitleText"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           Foreground="#19234D"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center" />
+
+                <Button Grid.Column="1"
+                        Content="Закрыть"
+                        Classes="link"
+                        Click="CloseButton_Click" />
+
+            </Grid>
+
+            <Border x:Name="MessageBorder"
+                    Classes="card"
+                    IsVisible="False">
+
+                <TextBlock x:Name="MessageText"
+                           FontSize="14"
+                           TextWrapping="Wrap" />
+
+            </Border>
+
+            <Border Classes="card">
+
+                <StackPanel>
+
+                    <TextBlock Text="Сведения"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D" />
+
+                    <TextBlock Text="Роль и курс" Classes="label" />
+                    <TextBlock x:Name="RoleValue" Classes="value" />
+
+                    <TextBlock Text="Статус учётной записи" Classes="label" />
+                    <TextBlock x:Name="StatusValue"
+                               Classes="value"
+                               FontWeight="SemiBold" />
+
+                    <TextBlock Text="Дата регистрации" Classes="label" />
+                    <TextBlock x:Name="CreatedValue" Classes="value" />
+
+                    <TextBlock Text="Последний вход" Classes="label" />
+                    <TextBlock x:Name="LastLoginValue" Classes="value" />
+
+                    <TextBlock Text="Назначение" Classes="label" />
+                    <TextBlock x:Name="AssignmentValue" Classes="value" />
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Classes="card">
+
+                <StackPanel x:Name="EditPanel">
+
+                    <TextBlock Text="Редактирование"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D" />
+
+                    <TextBlock Text="Логин *" Classes="label" />
+                    <TextBox x:Name="LoginTextBox" MaxLength="50" />
+                    <TextBlock x:Name="LoginError"
+                               Classes="error"
+                               IsVisible="False" />
+
+                    <StackPanel x:Name="RoleCoursePanel">
+
+                        <TextBlock Text="Роль *" Classes="label" />
+                        <ComboBox x:Name="RoleComboBox"
+                                  SelectionChanged="RoleComboBox_SelectionChanged" />
+
+                        <TextBlock Text="Курс *" Classes="label" />
+                        <ComboBox x:Name="CourseComboBox" />
+                        <TextBlock x:Name="CourseError"
+                                   Classes="error"
+                                   IsVisible="False" />
+
+                    </StackPanel>
+
+                    <StackPanel x:Name="ProfilePanel">
+
+                        <TextBlock Text="Академическая цель *" Classes="label" />
+                        <TextBox x:Name="GoalTextBox"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 MinHeight="90"
+                                 MaxLength="500" />
+                        <TextBlock x:Name="GoalError"
+                                   Classes="error"
+                                   IsVisible="False" />
+
+                        <TextBlock Text="Интерес *" Classes="label" />
+                        <TextBox x:Name="InterestTextBox"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 MinHeight="70"
+                                 MaxLength="300" />
+                        <TextBlock x:Name="InterestError"
+                                   Classes="error"
+                                   IsVisible="False" />
+
+                        <TextBlock Text="Сектор *" Classes="label" />
+                        <ComboBox x:Name="SectorComboBox" />
+                        <TextBlock x:Name="SectorError"
+                                   Classes="error"
+                                   IsVisible="False" />
+
+                        <TextBlock Text="Специальность *" Classes="label" />
+                        <ComboBox x:Name="SpecialtyComboBox" />
+                        <TextBlock x:Name="SpecialtyError"
+                                   Classes="error"
+                                   IsVisible="False" />
+
+                    </StackPanel>
+
+                    <Button Content="Сохранить изменения"
+                            Classes="primary"
+                            HorizontalAlignment="Left"
+                            Margin="0,20,0,0"
+                            Click="SaveButton_Click" />
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Classes="card">
+
+                <StackPanel>
+
+                    <TextBlock Text="Действия"
+                               FontSize="19"
+                               FontWeight="SemiBold"
+                               Foreground="#19234D"
+                               Margin="0,0,0,14" />
+
+                    <WrapPanel>
+
+                        <Button x:Name="ActivateButton"
+                                Content="Активировать"
+                                Classes="primary"
+                                Margin="0,0,10,10"
+                                Click="ActivateButton_Click" />
+
+                        <Button x:Name="BlockButton"
+                                Content="Заблокировать"
+                                Classes="danger"
+                                Margin="0,0,10,10"
+                                Click="BlockButton_Click" />
+
+                        <Button x:Name="ArchiveButton"
+                                Content="Архивировать"
+                                Classes="danger"
+                                Margin="0,0,10,10"
+                                Click="ArchiveButton_Click" />
+
+                        <Button x:Name="ResetPasswordButton"
+                                Content="Сбросить пароль"
+                                Classes="outline"
+                                Margin="0,0,10,10"
+                                Click="ResetPasswordButton_Click" />
+
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </Border>
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+</Window>
