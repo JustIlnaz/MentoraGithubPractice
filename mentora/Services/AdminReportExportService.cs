@@ -19,6 +19,17 @@ public sealed class AdminReportExportService
         return Task.Run(() => WriteExcel(report, output), cancellationToken);
     }
 
+    public Task ExportPdfAsync(
+        AdminStatsReport report,
+        Stream output,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+        ArgumentNullException.ThrowIfNull(output);
+
+        return AdminReportPdfWriter.WriteAsync(report, output, cancellationToken);
+    }
+
     private static void WriteExcel(AdminStatsReport report, Stream output)
     {
         using var workbook = new XLWorkbook();
