@@ -16,19 +16,19 @@ internal static class AdminReportPdfWriter
 {
     private static readonly object FontResolverLock = new();
     private const string FontFamily = "Inter";
+    private static InterFontResolver? _fontResolver;
 
     public static Task WriteAsync(
         AdminStatsReport report,
         Stream output,
         CancellationToken cancellationToken)
     {
+        EnsureFontResolver();
         return Task.Run(() => Write(report, output), cancellationToken);
     }
 
     private static void Write(AdminStatsReport report, Stream output)
     {
-        EnsureFontResolver();
-
         using var document = new PdfDocument();
         using (var renderer = new ReportRenderer(document, report))
             renderer.Render();
@@ -40,15 +40,40 @@ internal static class AdminReportPdfWriter
     {
         lock (FontResolverLock)
         {
+            if (_fontResolver != null)
+                return;
+
             if (GlobalFontSettings.FontResolver == null)
-                GlobalFontSettings.FontResolver = new InterFontResolver();
+            {
+                _fontResolver = new InterFontResolver(
+                    LoadFont("Inter-Regular.ttf"),
+                    LoadFont("Inter-Bold.ttf"));
+                GlobalFontSettings.FontResolver = _fontResolver;
+            }
         }
+    }
+
+    private static byte[] LoadFont(string fileName)
+    {
+        var fontUri = new Uri($"avares://Avalonia.Fonts.Inter/Assets/{fileName}");
+        using var fontStream = AssetLoader.Open(fontUri);
+        using var memoryStream = new MemoryStream();
+        fontStream.CopyTo(memoryStream);
+        return memoryStream.ToArray();
     }
 
     private sealed class InterFontResolver : IFontResolver
     {
         private const string RegularFace = "Inter-Regular";
         private const string BoldFace = "Inter-Bold";
+        private readonly byte[] _regularFont;
+        private readonly byte[] _boldFont;
+
+        public InterFontResolver(byte[] regularFont, byte[] boldFont)
+        {
+            _regularFont = regularFont;
+            _boldFont = boldFont;
+        }
 
         public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic)
         {
@@ -57,18 +82,12 @@ internal static class AdminReportPdfWriter
 
         public byte[] GetFont(string faceName)
         {
-            string fileName = faceName switch
+            return faceName switch
             {
-                RegularFace => "Inter-Regular.ttf",
-                BoldFace => "Inter-Bold.ttf",
+                RegularFace => _regularFont,
+                BoldFace => _boldFont,
                 _ => throw new ArgumentException("Неизвестное начертание шрифта.", nameof(faceName))
             };
-
-            var fontUri = new Uri($"avares://Avalonia.Fonts.Inter/Assets/{fileName}");
-            using var fontStream = AssetLoader.Open(fontUri);
-            using var memoryStream = new MemoryStream();
-            fontStream.CopyTo(memoryStream);
-            return memoryStream.ToArray();
         }
     }
 
@@ -81,7 +100,7 @@ internal static class AdminReportPdfWriter
         private const double HeaderHeight = 24;
         private static readonly XColor Accent = XColor.FromArgb(91, 75, 255);
         private static readonly XColor Border = XColor.FromArgb(211, 215, 226);
-        private static readonly XPdfFontOptions FontOptions = new(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
+        private static readonly XPdfFontOptions FontOptions = new(PdfFontEncoding.Unicode, PdfFontEmbedding.EmbedCompleteFontFile);
         private static readonly XFont TitleFont = new(FontFamily, 17, XFontStyleEx.Bold, FontOptions);
         private static readonly XFont SectionFont = new(FontFamily, 11, XFontStyleEx.Bold, FontOptions);
         private static readonly XFont BodyFont = new(FontFamily, 8, XFontStyleEx.Regular, FontOptions);
@@ -89,15 +108,20 @@ internal static class AdminReportPdfWriter
 
         private readonly PdfDocument _document;
         private readonly AdminStatsReport _report;
-        private PdfPage _page = null!;
-        private XGraphics _graphics = null!;
+        private readonly Dictionary<(XFont Font, string Text), double> _textWidths = new();
+        private PdfPage _page;
+        private XGraphics _graphics;
         private double _y;
 
         public ReportRenderer(PdfDocument document, AdminStatsReport report)
         {
             _document = document;
             _report = report;
-            AddPage();
+            _page = _document.AddPage();
+            _page.Size = PageSize.A4;
+            _page.Orientation = PageOrientation.Landscape;
+            _graphics = XGraphics.FromPdfPage(_page);
+            _y = Margin;
             DrawPageHeading();
         }
 
@@ -271,7 +295,7 @@ internal static class AdminReportPdfWriter
 
         private void AddPage()
         {
-            _graphics?.Dispose();
+            _graphics.Dispose();
             _page = _document.AddPage();
             _page.Size = PageSize.A4;
             _page.Orientation = PageOrientation.Landscape;
@@ -301,12 +325,19 @@ internal static class AdminReportPdfWriter
                 }
 
                 string current = "";
+                double currentWidth = 0;
+                double spaceWidth = MeasureText(" ", font);
                 foreach (string word in paragraph.Split(' '))
                 {
-                    string candidate = current.Length == 0 ? word : current + " " + word;
-                    if (_graphics.MeasureString(candidate, font).Width <= width)
+                    if (word.Length == 0)
+                        continue;
+
+                    double wordWidth = MeasureText(word, font);
+                    double candidateWidth = currentWidth + (current.Length == 0 ? 0 : spaceWidth) + wordWidth;
+                    if (candidateWidth <= width)
                     {
-                        current = candidate;
+                        current = current.Length == 0 ? word : current + " " + word;
+                        currentWidth = candidateWidth;
                         continue;
                     }
 
@@ -314,19 +345,30 @@ internal static class AdminReportPdfWriter
                     {
                         result.Add(current);
                         current = "";
+                        currentWidth = 0;
+                    }
+
+                    if (wordWidth <= width)
+                    {
+                        current = word;
+                        currentWidth = wordWidth;
+                        continue;
                     }
 
                     foreach (char character in word)
                     {
-                        string next = current + character;
-                        if (current.Length > 0 && _graphics.MeasureString(next, font).Width > width)
+                        string characterText = character.ToString();
+                        double characterWidth = MeasureText(characterText, font);
+                        if (current.Length > 0 && currentWidth + characterWidth > width)
                         {
                             result.Add(current);
-                            current = character.ToString();
+                            current = characterText;
+                            currentWidth = characterWidth;
                         }
                         else
                         {
-                            current = next;
+                            current += character;
+                            currentWidth += characterWidth;
                         }
                     }
                 }
@@ -336,6 +378,17 @@ internal static class AdminReportPdfWriter
             }
 
             return result.Count == 0 ? new[] { "" } : result.ToArray();
+        }
+
+        private double MeasureText(string text, XFont font)
+        {
+            var key = (font, text);
+            if (_textWidths.TryGetValue(key, out double width))
+                return width;
+
+            width = _graphics.MeasureString(text, font).Width;
+            _textWidths.Add(key, width);
+            return width;
         }
     }
 }
