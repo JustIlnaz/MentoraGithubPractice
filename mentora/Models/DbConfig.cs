@@ -25,6 +25,15 @@ public static class DbConfig
         if (string.IsNullOrWhiteSpace(value))
             throw new InvalidOperationException("В dbsettings.json не задана строка подключения.");
 
+        var settings = new Npgsql.NpgsqlConnectionStringBuilder(value);
+
+
+        System.Diagnostics.Debug.WriteLine($"Файл: {path}");
+        System.Diagnostics.Debug.WriteLine($"Сервер: {settings.Host}");
+        System.Diagnostics.Debug.WriteLine($"Порт: {settings.Port}");
+        System.Diagnostics.Debug.WriteLine($"База: {settings.Database}");
+        System.Diagnostics.Debug.WriteLine($"Пользователь: {settings.Username}");
+
         return value;
     }
 }

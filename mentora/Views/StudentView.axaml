@@ -208,7 +208,6 @@
                     </Border>
 
                     <Grid x:Name="DataContainer" IsVisible="False">
-                        
 
                         <StackPanel x:Name="ProfilePanel" Spacing="20">
 
@@ -259,35 +258,40 @@
                                                    Text="Курс"
                                                    Classes="label" />
                                         <TextBlock x:Name="CourseValue"
-                                                   Grid.Row="1" Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="2"
                                                    Text="Специальность"
                                                    Classes="label" />
                                         <TextBlock x:Name="SpecialtyValue"
-                                                   Grid.Row="2" Grid.Column="1"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="3"
                                                    Text="Сектор"
                                                    Classes="label" />
                                         <TextBlock x:Name="SectorValue"
-                                                   Grid.Row="3" Grid.Column="1"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="4"
                                                    Text="Академическая цель"
                                                    Classes="label" />
                                         <TextBlock x:Name="GoalValue"
-                                                   Grid.Row="4" Grid.Column="1"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="5"
                                                    Text="Интерес"
                                                    Classes="label" />
                                         <TextBlock x:Name="InterestValue"
-                                                   Grid.Row="5" Grid.Column="1"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                     </Grid>
@@ -318,7 +322,6 @@
                             </Border>
 
                         </StackPanel>
-                        
 
                         <StackPanel x:Name="CoachPanel"
                                     IsVisible="False">
@@ -334,10 +337,15 @@
                                                Foreground="#19234D"
                                                TextWrapping="Wrap" />
 
-                                    <TextBlock Text="Когда коуч выберет вашу анкету, здесь появятся его данные."
+                                    <TextBlock Text="Подберите подходящего коуча по специальности, сектору и интересам вашей анкеты."
                                                FontSize="14"
                                                Foreground="#747C90"
                                                TextWrapping="Wrap" />
+
+                                    <Button Content="Подобрать коуча"
+                                            Classes="link"
+                                            HorizontalAlignment="Left"
+                                            Click="FindCoachButton_Click" />
 
                                 </StackPanel>
                             </Border>
@@ -364,35 +372,40 @@
                                                    Text="Курс"
                                                    Classes="label" />
                                         <TextBlock x:Name="CoachCourseValue"
-                                                   Grid.Row="1" Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="2"
                                                    Text="Специальность"
                                                    Classes="label" />
                                         <TextBlock x:Name="CoachSpecialtyValue"
-                                                   Grid.Row="2" Grid.Column="1"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="3"
                                                    Text="Сектор"
                                                    Classes="label" />
                                         <TextBlock x:Name="CoachSectorValue"
-                                                   Grid.Row="3" Grid.Column="1"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="4"
                                                    Text="Академическая цель"
                                                    Classes="label" />
                                         <TextBlock x:Name="CoachGoalValue"
-                                                   Grid.Row="4" Grid.Column="1"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                         <TextBlock Grid.Row="5"
                                                    Text="Интерес"
                                                    Classes="label" />
                                         <TextBlock x:Name="CoachInterestValue"
-                                                   Grid.Row="5" Grid.Column="1"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1"
                                                    Classes="value" />
 
                                     </Grid>
@@ -401,7 +414,6 @@
                             </Border>
 
                         </StackPanel>
-                        
 
                         <Border x:Name="MeetingsPanel"
                                 Classes="card"
