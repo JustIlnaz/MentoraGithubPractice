@@ -1,26 +1,29 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Microsoft.EntityFrameworkCore;
+using Avalonia.Platform.Storage;
 using mentora.Models;
+using mentora.Services;
 
 namespace mentora.Views;
 
 public partial class AdminStatsView : UserControl
 {
     private static readonly CultureInfo RussianCulture = CultureInfo.GetCultureInfo("ru-RU");
-
+    private readonly AdminStatsReportService _reportService = new();
+    private readonly AdminReportExportService _exportService = new();
     private bool _isBusy;
+    private bool _isExporting;
+    private AdminStatsReport? _currentReport;
 
     public AdminStatsView()
     {
         InitializeComponent();
-
         Loaded += async (_, _) => await LoadAsync();
     }
 
@@ -31,183 +34,187 @@ public partial class AdminStatsView : UserControl
 
     private async void AllButton_Click(object? sender, RoutedEventArgs e)
     {
-        if (_isBusy)
+        if (_isBusy || _isExporting)
             return;
 
         DateFromPicker.SelectedDate = null;
         DateToPicker.SelectedDate = null;
-
         await LoadAsync();
     }
 
-    private async Task LoadAsync()
+    private async Task<bool> LoadAsync()
     {
         if (_isBusy)
-            return;
+            return false;
 
         DateTimeOffset? from = DateFromPicker.SelectedDate;
         DateTimeOffset? to = DateToPicker.SelectedDate;
-
         if (from != null && to != null && from.Value.Date > to.Value.Date)
         {
-            ShowMessage("Дата «с» не может быть позже даты «по».", true);
-            return;
+            ShowMessage("РќР°С‡Р°Р»Рѕ РїРµСЂРёРѕРґР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїРѕР·Р¶Рµ РµРіРѕ РѕРєРѕРЅС‡Р°РЅРёСЏ.", true);
+            return false;
         }
 
-        DateTime? fromUtc = from == null
-            ? null
-            : DateTime.SpecifyKind(from.Value.Date, DateTimeKind.Local).ToUniversalTime();
-
-        DateTime? toUtc = to == null
-            ? null
-            : DateTime.SpecifyKind(to.Value.Date.AddDays(1), DateTimeKind.Local).ToUniversalTime();
-
         MessageText.IsVisible = false;
-
+        _currentReport = null;
         SetBusy(true);
 
         try
         {
             await using var db = new MentoraContext();
-
             if (!await AdminGuard.IsAdminAsync(db))
             {
                 AdminGuard.ReturnToLogin(this);
-                return;
+                return false;
             }
 
-            int newStudents = await db.Users.CountAsync(u =>
-                u.IdRole == 1
-                && (fromUtc == null || u.CreatedAt >= fromUtc)
-                && (toUtc == null || u.CreatedAt < toUtc));
-
-            int newCoaches = await db.Users.CountAsync(u =>
-                u.IdRole == 2
-                && (fromUtc == null || u.CreatedAt >= fromUtc)
-                && (toUtc == null || u.CreatedAt < toUtc));
-
-            int created = await db.Assignments.CountAsync(a =>
-                (fromUtc == null || a.CreatedAt >= fromUtc)
-                && (toUtc == null || a.CreatedAt < toUtc));
-
-            int completed = await db.Assignments.CountAsync(a =>
-                a.IdAssignmentStatus == 2
-                && a.ClosedAt != null
-                && (fromUtc == null || a.ClosedAt >= fromUtc)
-                && (toUtc == null || a.ClosedAt < toUtc));
-
-            int cancelled = await db.Assignments.CountAsync(a =>
-                a.IdAssignmentStatus == 3
-                && a.ClosedAt != null
-                && (fromUtc == null || a.ClosedAt >= fromUtc)
-                && (toUtc == null || a.ClosedAt < toUtc));
-
-            int meetings = await db.Meetings.CountAsync(m =>
-                !m.IsArchived
-                && (fromUtc == null || m.MeetingDate >= fromUtc)
-                && (toUtc == null || m.MeetingDate < toUtc));
-
-            int activeNow = await db.Assignments.CountAsync(a => a.IdAssignmentStatus == 1);
-
-            int freeNow = await db.Users.CountAsync(u =>
-                u.IdRole == 1
-                && u.IdUserStatus == 1
-                && !db.Assignments.Any(a => a.IdStudent == u.IdUser && a.IdAssignmentStatus == 1));
-
-            var bySpecialty = await db.Assignments
-                .AsNoTracking()
-                .Where(a => (fromUtc == null || a.CreatedAt >= fromUtc)
-                            && (toUtc == null || a.CreatedAt < toUtc))
-                .GroupBy(a => a.IdStudentNavigation.IdSpecialtyNavigation.Abbreviation)
-                .Select(g => new StatRow { Name = g.Key, Count = g.Count() })
-                .OrderByDescending(r => r.Count)
-                .ThenBy(r => r.Name)
-                .ToListAsync();
-
-            var bySector = await db.Assignments
-                .AsNoTracking()
-                .Where(a => (fromUtc == null || a.CreatedAt >= fromUtc)
-                            && (toUtc == null || a.CreatedAt < toUtc))
-                .GroupBy(a => a.IdStudentNavigation.IdSectorNavigation.Name)
-                .Select(g => new StatRow { Name = g.Key, Count = g.Count() })
-                .OrderByDescending(r => r.Count)
-                .ThenBy(r => r.Name)
-                .ToListAsync();
-
-            var free = await db.Profiles
-                .AsNoTracking()
-                .Where(p =>
-                    p.IdUserNavigation.IdRole == 1
-                    && p.IdUserNavigation.IdUserStatus == 1
-                    && !db.Assignments.Any(a => a.IdStudent == p.IdUser && a.IdAssignmentStatus == 1))
-                .GroupBy(p => p.IdSpecialtyNavigation.Abbreviation)
-                .Select(g => new StatRow { Name = g.Key, Count = g.Count() })
-                .OrderByDescending(r => r.Count)
-                .ThenBy(r => r.Name)
-                .ToListAsync();
-
-            NewStudentsValue.Text = newStudents.ToString();
-            NewCoachesValue.Text = newCoaches.ToString();
-            CreatedValue.Text = created.ToString();
-            CompletedValue.Text = completed.ToString();
-            CancelledValue.Text = cancelled.ToString();
-            MeetingsValue.Text = meetings.ToString();
-            ActiveNowValue.Text = activeNow.ToString();
-            FreeNowValue.Text = freeNow.ToString();
-
-            BySpecialtyList.ItemsSource = bySpecialty;
-            BySectorList.ItemsSource = bySector;
-            FreeList.ItemsSource = free;
-
-            BySpecialtyEmpty.IsVisible = bySpecialty.Count == 0;
-            BySectorEmpty.IsVisible = bySector.Count == 0;
-            FreeEmpty.IsVisible = free.Count == 0;
-            var freeStudents = await db.Profiles
-    .AsNoTracking()
-    .Where(p =>
-        p.IdUserNavigation.IdRole == 1
-        && p.IdUserNavigation.IdUserStatus == 1
-        && !db.Assignments.Any(a => a.IdStudent == p.IdUser && a.IdAssignmentStatus == 1))
-    .OrderBy(p => p.IdUserNavigation.CreatedAt)
-    .Take(100)
-    .Select(p => new FreeStudentRow
-    {
-        Login = p.IdUserNavigation.Login,
-        Specialty = p.IdSpecialtyNavigation.Abbreviation,
-        Sector = p.IdSectorNavigation.Name,
-        RegisteredAt = p.IdUserNavigation.CreatedAt
-    })
-    .ToListAsync();
-
-            FreeStudentsList.ItemsSource = freeStudents;
-
-            FreeStudentsNote.Text = freeStudents.Count == 0
-                ? "Все активные студенты уже закреплены за коучами."
-                : freeStudents.Count < 100
-                    ? "Всего: " + freeStudents.Count + ". Сначала те, кто ждёт дольше всех."
-                    : "Показаны первые 100 студентов, ждущих дольше всех.";
-
-            FreeStudentsBorder.IsVisible = true;
-
-            PeriodText.Text = from == null && to == null
-                ? "Период: за всё время (показатели «сейчас» не зависят от периода)."
-                : "Период: " +
-                  (from == null ? "…" : from.Value.ToString("dd.MM.yyyy", RussianCulture)) +
-                  " — " +
-                  (to == null ? "…" : to.Value.ToString("dd.MM.yyyy", RussianCulture)) +
-                  " (показатели «сейчас» не зависят от периода).";
-
-            StatsPanel.IsVisible = true;
-            TablesPanel.IsVisible = true;
+            _currentReport = await _reportService.LoadAsync(db, from, to);
+            DisplayReport(_currentReport);
+            return true;
         }
         catch (Exception)
         {
-            ShowMessage("Не удалось загрузить статистику. Проверьте подключение к базе.", true);
+            ShowMessage("РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ СЃС‚Р°С‚РёСЃС‚РёРєСѓ. РџСЂРѕРІРµСЂСЊС‚Рµ РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С….", true);
+            return false;
         }
         finally
         {
             SetBusy(false);
         }
+    }
+
+    private void DisplayReport(AdminStatsReport report)
+    {
+        NewStudentsValue.Text = MetricValue(report, 0);
+        NewCoachesValue.Text = MetricValue(report, 1);
+        CreatedValue.Text = MetricValue(report, 2);
+        CompletedValue.Text = MetricValue(report, 3);
+        CancelledValue.Text = MetricValue(report, 4);
+        MeetingsValue.Text = MetricValue(report, 5);
+        ActiveNowValue.Text = MetricValue(report, 6);
+        FreeNowValue.Text = MetricValue(report, 7);
+
+        BySpecialtyList.ItemsSource = report.AssignmentsBySpecialty;
+        BySectorList.ItemsSource = report.AssignmentsBySector;
+        FreeList.ItemsSource = report.FreeStudentsBySpecialty;
+        FreeStudentsList.ItemsSource = report.FreeStudents;
+
+        BySpecialtyEmpty.IsVisible = report.AssignmentsBySpecialty.Count == 0;
+        BySectorEmpty.IsVisible = report.AssignmentsBySector.Count == 0;
+        FreeEmpty.IsVisible = report.FreeStudentsBySpecialty.Count == 0;
+        FreeStudentsNote.Text = report.FreeStudents.Count == 0
+            ? "РќРµС‚ СЃС‚СѓРґРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рј РµС‰С‘ РЅРµ РЅР°Р·РЅР°С‡РµРЅ РєРѕСѓС‡."
+            : report.FreeStudents.Count < 100
+                ? $"РџРѕРєР°Р·Р°РЅС‹ РІСЃРµ СЃС‚СѓРґРµРЅС‚С‹: {report.FreeStudents.Count}."
+                : "РџРѕРєР°Р·Р°РЅС‹ РїРµСЂРІС‹Рµ 100 СЃС‚СѓРґРµРЅС‚РѕРІ, РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє РґРѕСЃС‚СѓРїРµРЅ РІ С‚Р°Р±Р»РёС†Рµ.";
+
+        PeriodText.Text = FormatPeriod(report);
+        StatsPanel.IsVisible = true;
+        TablesPanel.IsVisible = true;
+        FreeStudentsBorder.IsVisible = true;
+    }
+
+    private static string MetricValue(AdminStatsReport report, int index)
+    {
+        return report.Metrics[index].Value.ToString(RussianCulture);
+    }
+
+    private async void ExportButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_isBusy || _isExporting)
+            return;
+
+        _isExporting = true;
+        ExportButton.IsEnabled = false;
+        MessageText.IsVisible = false;
+
+        try
+        {
+            if (!IsSelectedPeriodCurrent() && !await LoadAsync())
+                return;
+
+            if (_currentReport is not { } report)
+                return;
+
+            var storageProvider = TopLevel.GetTopLevel(this)?.StorageProvider;
+            if (storageProvider == null)
+            {
+                ShowMessage("РЎРёСЃС‚РµРјРЅС‹Р№ РґРёР°Р»РѕРі СЃРѕС…СЂР°РЅРµРЅРёСЏ С„Р°Р№Р»РѕРІ РЅРµРґРѕСЃС‚СѓРїРµРЅ.", true);
+                return;
+            }
+
+            SetBusy(true);
+            var file = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = "РЎРѕС…СЂР°РЅРёС‚СЊ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Р№ РѕС‚С‡С‘С‚",
+                SuggestedFileName = BuildSuggestedFileName(report) + ".xlsx",
+                DefaultExtension = "xlsx",
+                FileTypeChoices = new[]
+                {
+                    new FilePickerFileType("РљРЅРёРіР° Excel")
+                    {
+                        Patterns = new[] { "*.xlsx" },
+                        MimeTypes = new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+                    },
+                    new FilePickerFileType("Р”РѕРєСѓРјРµРЅС‚ PDF")
+                    {
+                        Patterns = new[] { "*.pdf" },
+                        MimeTypes = new[] { "application/pdf" }
+                    }
+                }
+            });
+
+            if (file == null)
+                return;
+
+            string extension = Path.GetExtension(file.Name).ToLowerInvariant();
+            if (extension is not (".xlsx" or ".pdf"))
+            {
+                ShowMessage("Р’С‹Р±РµСЂРёС‚Рµ С„РѕСЂРјР°С‚ Excel (.xlsx) РёР»Рё PDF (.pdf).", true);
+                return;
+            }
+
+            await using var output = await file.OpenWriteAsync();
+            if (extension == ".pdf")
+                await _exportService.ExportPdfAsync(report, output);
+            else
+                await _exportService.ExportExcelAsync(report, output);
+
+            ShowMessage($"РћС‚С‡С‘С‚ СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅС‘РЅ: {file.Name}", false);
+        }
+        catch (Exception exception)
+        {
+            ShowMessage($"РќРµ СѓРґР°Р»РѕСЃСЊ СЌРєСЃРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РѕС‚С‡С‘С‚: {exception.Message}", true);
+        }
+        finally
+        {
+            SetBusy(false);
+            _isExporting = false;
+            ExportButton.IsEnabled = true;
+        }
+    }
+
+    private bool IsSelectedPeriodCurrent()
+    {
+        DateTime? from = DateFromPicker.SelectedDate?.Date;
+        DateTime? to = DateToPicker.SelectedDate?.Date;
+        return _currentReport != null
+            && _currentReport.PeriodStart == from
+            && _currentReport.PeriodEnd == to;
+    }
+
+    private static string BuildSuggestedFileName(AdminStatsReport report)
+    {
+        string from = report.PeriodStart?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "all";
+        string to = report.PeriodEnd?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "all";
+        return $"AdminReport_{from}_{to}";
+    }
+
+    private static string FormatPeriod(AdminStatsReport report)
+    {
+        string from = report.PeriodStart?.ToString("dd.MM.yyyy", RussianCulture) ?? "СЃ РЅР°С‡Р°Р»Р°";
+        string to = report.PeriodEnd?.ToString("dd.MM.yyyy", RussianCulture) ?? "РїРѕ РЅР°СЃС‚РѕСЏС‰РµРµ РІСЂРµРјСЏ";
+        return $"РџРµСЂРёРѕРґ: {from} вЂ” {to} (РґР°С‚С‹ РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ).";
     }
 
     private void SetBusy(bool isBusy)
@@ -222,25 +229,4 @@ public partial class AdminStatsView : UserControl
         MessageText.Foreground = Brush.Parse(isError ? "#B52C2C" : "#278450");
         MessageText.IsVisible = true;
     }
-}
-
-public class StatRow
-{
-    public string Name { get; set; } = "";
-
-    public int Count { get; set; }
-}
-public class FreeStudentRow
-{
-    public string Login { get; set; } = "";
-
-    public string Specialty { get; set; } = "";
-
-    public string Sector { get; set; } = "";
-
-    public DateTime RegisteredAt { get; set; }
-
-    public string ProfileText => Specialty + " · " + Sector;
-
-    public string DateText => "с " + RegisteredAt.ToLocalTime().ToString("dd.MM.yyyy");
 }
