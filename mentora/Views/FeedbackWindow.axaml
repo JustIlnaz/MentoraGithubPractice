@@ -1,0 +1,97 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="mentora.Views.FeedbackWindow"
+        x:CompileBindings="False"
+        Title="Отзыв о встрече"
+        Width="460"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Background="#E8EBFF">
+
+    <Window.Styles>
+        <Style Selector="Button.star">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="34" />
+            <Setter Property="Padding" Value="4,0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Foreground" Value="#C5CAE0" />
+        </Style>
+
+        <Style Selector="Button.star:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </Window.Styles>
+
+    <Border Background="White"
+            CornerRadius="8"
+            Padding="26"
+            Margin="16">
+
+        <StackPanel Spacing="14">
+
+            <TextBlock Text="Оцените встречу"
+                       FontSize="21"
+                       FontWeight="SemiBold"
+                       Foreground="#19234D" />
+
+            <TextBlock x:Name="TopicText"
+                       FontSize="14"
+                       Foreground="#747C90"
+                       TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                <Button x:Name="Star1" Classes="star" Content="★" Tag="1" Click="Star_Click" />
+                <Button x:Name="Star2" Classes="star" Content="★" Tag="2" Click="Star_Click" />
+                <Button x:Name="Star3" Classes="star" Content="★" Tag="3" Click="Star_Click" />
+                <Button x:Name="Star4" Classes="star" Content="★" Tag="4" Click="Star_Click" />
+                <Button x:Name="Star5" Classes="star" Content="★" Tag="5" Click="Star_Click" />
+
+            </StackPanel>
+
+            <TextBlock x:Name="RatingText"
+                       Text="Выберите оценку от 1 до 5"
+                       HorizontalAlignment="Center"
+                       FontSize="13"
+                       Foreground="#747C90" />
+
+            <TextBlock Text="Комментарий о коуче (необязательно)"
+                       FontSize="14"
+                       Foreground="#39446B" />
+
+            <TextBox x:Name="CommentBox"
+                     Height="110"
+                     MaxLength="500"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Watermark="Что понравилось, что можно улучшить?" />
+
+            <TextBlock x:Name="ErrorText"
+                       Foreground="#B52C2C"
+                       FontSize="13"
+                       TextWrapping="Wrap"
+                       IsVisible="False" />
+
+            <Grid ColumnDefinitions="*,Auto,Auto">
+
+                <Button x:Name="CancelButton"
+                        Grid.Column="1"
+                        Content="Отмена"
+                        Margin="0,0,10,0"
+                        Click="CancelButton_Click" />
+
+                <Button x:Name="SubmitButton"
+                        Grid.Column="2"
+                        Content="Отправить"
+                        Background="#5B4BFF"
+                        Foreground="White"
+                        Click="SubmitButton_Click" />
+
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</Window>

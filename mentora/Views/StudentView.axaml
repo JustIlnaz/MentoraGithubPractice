@@ -208,7 +208,7 @@
                     </Border>
 
                     <Grid x:Name="DataContainer" IsVisible="False">
-                        
+
 
                         <StackPanel x:Name="ProfilePanel" Spacing="20">
 
@@ -318,7 +318,7 @@
                             </Border>
 
                         </StackPanel>
-                        
+
 
                         <StackPanel x:Name="CoachPanel"
                                     IsVisible="False">
@@ -401,7 +401,7 @@
                             </Border>
 
                         </StackPanel>
-                        
+
 
                         <Border x:Name="MeetingsPanel"
                                 Classes="card"
@@ -472,6 +472,22 @@
                                                                    FontSize="14"
                                                                    Foreground="#525D76"
                                                                    TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding Summary}"
+                                                                   FontSize="14"
+                                                                   Foreground="#525D76"
+                                                                   TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding FeedbackText}"
+                                                                   IsVisible="{Binding HasFeedback}"
+                                                                   FontSize="13"
+                                                                   Foreground="#5B4BFF"
+                                                                   TextWrapping="Wrap" />
+
+                                                        <Button Content="Оставить отзыв о коуче"
+                                                                Classes="link"
+                                                                HorizontalAlignment="Left"
+                                                                Padding="0,6"
+                                                                IsVisible="{Binding CanLeaveFeedback}"
+                                                                Click="LeaveFeedbackButton_Click" />
 
                                                     </StackPanel>
 

@@ -141,6 +141,7 @@ public partial class StudentView : UserControl
                 .ThenByDescending(m => m.IdMeeting)
                 .Select(m => new StudentMeetingRow
                 {
+                    IdMeeting = m.IdMeeting,
                     MeetingDate = m.MeetingDate,
                     Topic = m.Topic,
                     Summary = m.Summary,
@@ -151,7 +152,17 @@ public partial class StudentView : UserControl
                         .Login,
 
                     AssignmentStatus = m.IdAssignmentNavigation
-                        .IdAssignmentStatus
+                        .IdAssignmentStatus,
+
+                    FeedbackRating = db.MeetingFeedbacks
+                        .Where(f => f.IdMeeting == m.IdMeeting)
+                        .Select(f => (int?)f.Rating)
+                        .FirstOrDefault(),
+
+                    FeedbackComment = db.MeetingFeedbacks
+                        .Where(f => f.IdMeeting == m.IdMeeting)
+                        .Select(f => f.Comment)
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
 
@@ -316,6 +327,28 @@ public partial class StudentView : UserControl
         }
     }
 
+    private async void LeaveFeedbackButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { DataContext: StudentMeetingRow row })
+        {
+            return;
+        }
+
+        if (TopLevel.GetTopLevel(this) is not Window owner)
+        {
+            return;
+        }
+
+        var window = new FeedbackWindow(row.IdMeeting, row.Topic);
+
+        bool saved = await window.ShowDialog<bool>(owner);
+
+        if (saved)
+        {
+            await LoadDataAsync();
+        }
+    }
+
     private void ProfileButton_Click(object? sender, RoutedEventArgs e)
     {
         ShowSection("profile");
@@ -397,6 +430,8 @@ public class StudentMeetingRow
     private static readonly CultureInfo RussianCulture =
         CultureInfo.GetCultureInfo("ru-RU");
 
+    public int IdMeeting { get; set; }
+
     public DateTime MeetingDate { get; set; }
 
     public string Topic { get; set; } = "";
@@ -406,6 +441,34 @@ public class StudentMeetingRow
     public string CoachLogin { get; set; } = "";
 
     public int AssignmentStatus { get; set; }
+
+    public int? FeedbackRating { get; set; }
+
+    public string? FeedbackComment { get; set; }
+
+    public bool HasFeedback => FeedbackRating != null;
+
+    public bool CanLeaveFeedback =>
+        FeedbackRating == null && MeetingDate <= DateTime.UtcNow;
+
+    public string FeedbackText
+    {
+        get
+        {
+            if (FeedbackRating == null)
+            {
+                return "";
+            }
+
+            int rating = Math.Clamp(FeedbackRating.Value, 0, 5);
+
+            string stars = new string('★', rating) + new string('☆', 5 - rating);
+
+            return string.IsNullOrWhiteSpace(FeedbackComment)
+                ? "Ваш отзыв: " + stars
+                : "Ваш отзыв: " + stars + " — " + FeedbackComment;
+        }
+    }
 
     public string MonthText => MeetingDate
         .ToLocalTime()
