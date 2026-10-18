@@ -3,9 +3,7 @@
              x:Class="mentora.Views.StudentView"
              x:CompileBindings="False"
              Background="#E8EBFF">
-
     <UserControl.Styles>
-
         <Style Selector="Button.navigation">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -19,17 +17,14 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Cursor" Value="Hand" />
         </Style>
-
         <Style Selector="Button.navigation.selected">
             <Setter Property="Background" Value="#E8E9FF" />
             <Setter Property="Foreground" Value="#5B4BFF" />
         </Style>
-
         <Style Selector="Button.navigation:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#F1F0FF" />
             <Setter Property="Foreground" Value="#5B4BFF" />
         </Style>
-
         <Style Selector="Button.link">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="#5B4BFF" />
@@ -39,32 +34,27 @@
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
-
         <Style Selector="Button.link:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#DDE1FF" />
             <Setter Property="Foreground" Value="#4D3DEB" />
         </Style>
-
         <Style Selector="Border.card">
             <Setter Property="Background" Value="White" />
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Padding" Value="26" />
         </Style>
-
         <Style Selector="TextBlock.cardTitle">
             <Setter Property="FontSize" Value="21" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Foreground" Value="#19234D" />
             <Setter Property="Margin" Value="0,0,0,22" />
         </Style>
-
         <Style Selector="TextBlock.label">
             <Setter Property="Foreground" Value="#39446B" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Margin" Value="0,0,20,18" />
         </Style>
-
         <Style Selector="TextBlock.value">
             <Setter Property="Foreground" Value="#202331" />
             <Setter Property="FontSize" Value="14" />
@@ -73,451 +63,191 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="0,0,0,18" />
         </Style>
-
     </UserControl.Styles>
-
     <Grid ColumnDefinitions="190,*">
-
-        <Border Grid.Column="0"
-                Background="White"
-                Padding="12,30">
-
+        <Border Grid.Column="0" Background="White" Padding="12,30">
             <StackPanel Spacing="10">
-
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            Spacing="8"
-                            Margin="0,0,0,28">
-
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,0,0,28">
                     <Viewbox Width="34" Height="34">
                         <Canvas Width="64" Height="64">
-
-                            <Ellipse Width="13" Height="13"
-                                     Canvas.Left="8" Canvas.Top="2"
-                                     Fill="#6554FF" />
-
-                            <Ellipse Width="13" Height="13"
-                                     Canvas.Left="43" Canvas.Top="2"
-                                     Fill="#61CEB1" />
-
-                            <Path Data="M 10,55 L 10,28 Q 10,22 15,28 L 32,47"
-                                  Stroke="#7774FF"
-                                  StrokeThickness="11"
-                                  StrokeLineCap="Round"
-                                  StrokeJoin="Round" />
-
-                            <Path Data="M 54,55 L 54,28 Q 54,22 49,28 L 32,47"
-                                  Stroke="#61CEB1"
-                                  StrokeThickness="11"
-                                  StrokeLineCap="Round"
-                                  StrokeJoin="Round" />
-
-                            <Path Data="M 23,36 L 32,47 L 41,36"
-                                  Stroke="#5654EA"
-                                  StrokeThickness="10"
-                                  StrokeLineCap="Round"
-                                  StrokeJoin="Round" />
-
+                            <Ellipse Width="13" Height="13" Canvas.Left="8" Canvas.Top="2" Fill="#6554FF" />
+                            <Ellipse Width="13" Height="13" Canvas.Left="43" Canvas.Top="2" Fill="#61CEB1" />
+                            <Path Data="M 10,55 L 10,28 Q 10,22 15,28 L 32,47" Stroke="#7774FF" StrokeThickness="11" StrokeLineCap="Round" StrokeJoin="Round" />
+                            <Path Data="M 54,55 L 54,28 Q 54,22 49,28 L 32,47" Stroke="#61CEB1" StrokeThickness="11" StrokeLineCap="Round" StrokeJoin="Round" />
+                            <Path Data="M 23,36 L 32,47 L 41,36" Stroke="#5654EA" StrokeThickness="10" StrokeLineCap="Round" StrokeJoin="Round" />
                         </Canvas>
                     </Viewbox>
-
-                    <TextBlock Text="Mentora"
-                               FontSize="23"
-                               FontWeight="Bold"
-                               Foreground="#19234D"
-                               VerticalAlignment="Center" />
-
+                    <TextBlock Text="Mentora" FontSize="23" FontWeight="Bold" Foreground="#19234D" VerticalAlignment="Center" />
                 </StackPanel>
-
-                <Button x:Name="ProfileButton"
-                        Content="Моя анкета"
-                        Classes="navigation selected"
-                        Click="ProfileButton_Click" />
-
-                <Button x:Name="MeetingsButton"
-                        Content="Встречи"
-                        Classes="navigation"
-                        Click="MeetingsButton_Click" />
-
-                <Button x:Name="CoachButton"
-                        Content="Коуч"
-                        Classes="navigation"
-                        Click="CoachButton_Click" />
-
+                <Button x:Name="ProfileButton" Content="Моя анкета" Classes="navigation selected" Click="ProfileButton_Click" />
+                <Button x:Name="MeetingsButton" Content="Встречи" Classes="navigation" Click="MeetingsButton_Click" />
+                <Button x:Name="CoachButton" Content="Коуч" Classes="navigation" Click="CoachButton_Click" />
+                
+                <!-- НОВАЯ КНОПКА -->
+                <Button x:Name="GoalsButton" Content="Цели" Classes="navigation" Click="GoalsButton_Click" />
             </StackPanel>
-
         </Border>
-
-        <Grid Grid.Column="1"
-              RowDefinitions="Auto,*"
-              Margin="28,20,28,28">
-
-            <Grid ColumnDefinitions="*,Auto,Auto"
-                  Margin="0,0,0,24">
-
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" Margin="28,20,28,28">
+            <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,24">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Студент"
-                               Foreground="#19234D"
-                               FontSize="13" />
-
-                    <TextBlock x:Name="HeaderNameText"
-                               Foreground="#747C90"
-                               FontSize="13"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="0,4,12,0" />
+                    <TextBlock Text="Студент" Foreground="#19234D" FontSize="13" />
+                    <TextBlock x:Name="HeaderNameText" Foreground="#747C90" FontSize="13" TextTrimming="CharacterEllipsis" Margin="0,4,12,0" />
                 </StackPanel>
-
-                <Button x:Name="RefreshButton"
-                        Grid.Column="1"
-                        Content="Обновить"
-                        Classes="link"
-                        Click="RefreshButton_Click" />
-
-                <Button Grid.Column="2"
-                        Content="Выйти"
-                        Classes="link"
-                        Click="LogoutButton_Click" />
-
+                <Button x:Name="RefreshButton" Grid.Column="1" Content="Обновить" Classes="link" Click="RefreshButton_Click" />
+                <Button Grid.Column="2" Content="Выйти" Classes="link" Click="LogoutButton_Click" />
             </Grid>
-
-            <ScrollViewer Grid.Row="1"
-                          HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Auto">
-
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-
-                    <TextBlock x:Name="PageTitleText"
-                               Text="Моя анкета"
-                               FontSize="25"
-                               FontWeight="SemiBold"
-                               Foreground="#19234D"
-                               Margin="0,0,0,22" />
-
-                    <Border x:Name="MessageBorder"
-                            IsVisible="False"
-                            Background="White"
-                            CornerRadius="8"
-                            Padding="20"
-                            Margin="0,0,0,16">
-
-                        <TextBlock x:Name="MessageText"
-                                   TextWrapping="Wrap"
-                                   Foreground="#B52C2C"
-                                   FontSize="14" />
-
+                    <TextBlock x:Name="PageTitleText" Text="Моя анкета" FontSize="25" FontWeight="SemiBold" Foreground="#19234D" Margin="0,0,0,22" />
+                    <Border x:Name="MessageBorder" IsVisible="False" Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,16">
+                        <TextBlock x:Name="MessageText" TextWrapping="Wrap" Foreground="#B52C2C" FontSize="14" />
                     </Border>
-
                     <Grid x:Name="DataContainer" IsVisible="False">
-                        
-
+                        <!-- ПАНЕЛЬ ПРОФИЛЯ -->
                         <StackPanel x:Name="ProfilePanel" Spacing="20">
-
                             <Border Classes="card">
                                 <StackPanel Spacing="12">
-
-                                    <TextBlock x:Name="GreetingText"
-                                               FontSize="18"
-                                               FontWeight="SemiBold"
-                                               Foreground="#19234D"
-                                               TextWrapping="Wrap" />
-
-                                    <TextBlock Text="Здесь можно посмотреть свою анкету, данные назначенного коуча и историю встреч."
-                                               FontSize="14"
-                                               Foreground="#39446B"
-                                               TextWrapping="Wrap" />
-
-                                    <Border Background="#F1F0FF"
-                                            CornerRadius="6"
-                                            Padding="12,8"
-                                            HorizontalAlignment="Left">
-
-                                        <TextBlock x:Name="SelectionStatusText"
-                                                   Foreground="#5B4BFF"
-                                                   FontSize="13" />
-
+                                    <TextBlock x:Name="GreetingText" FontSize="18" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                                    <TextBlock Text="Здесь можно посмотреть свою анкету, данные назначенного коуча и историю встреч." FontSize="14" Foreground="#39446B" TextWrapping="Wrap" />
+                                    <Border Background="#F1F0FF" CornerRadius="6" Padding="12,8" HorizontalAlignment="Left">
+                                        <TextBlock x:Name="SelectionStatusText" Foreground="#5B4BFF" FontSize="13" />
                                     </Border>
-
                                 </StackPanel>
                             </Border>
-
                             <Border Classes="card">
                                 <StackPanel>
-
-                                    <TextBlock Text="Анкета"
-                                               Classes="cardTitle" />
-
-                                    <Grid ColumnDefinitions="2*,3*"
-                                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-
-                                        <TextBlock Text="Логин"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="LoginValue"
-                                                   Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="1"
-                                                   Text="Курс"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CourseValue"
-                                                   Grid.Row="1" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="2"
-                                                   Text="Специальность"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="SpecialtyValue"
-                                                   Grid.Row="2" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="3"
-                                                   Text="Сектор"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="SectorValue"
-                                                   Grid.Row="3" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="4"
-                                                   Text="Академическая цель"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="GoalValue"
-                                                   Grid.Row="4" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="5"
-                                                   Text="Интерес"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="InterestValue"
-                                                   Grid.Row="5" Grid.Column="1"
-                                                   Classes="value" />
-
+                                    <TextBlock Text="Анкета" Classes="cardTitle" />
+                                    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+                                        <TextBlock Text="Логин" Classes="label" />
+                                        <TextBlock x:Name="LoginValue" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="1" Text="Курс" Classes="label" />
+                                        <TextBlock x:Name="CourseValue" Grid.Row="1" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="2" Text="Специальность" Classes="label" />
+                                        <TextBlock x:Name="SpecialtyValue" Grid.Row="2" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="3" Text="Сектор" Classes="label" />
+                                        <TextBlock x:Name="SectorValue" Grid.Row="3" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="4" Text="Академическая цель" Classes="label" />
+                                        <TextBlock x:Name="GoalValue" Grid.Row="4" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="5" Text="Интерес" Classes="label" />
+                                        <TextBlock x:Name="InterestValue" Grid.Row="5" Grid.Column="1" Classes="value" />
                                     </Grid>
-
                                 </StackPanel>
                             </Border>
-
                             <Border Classes="card">
                                 <StackPanel Spacing="10">
-
-                                    <TextBlock Text="Программа наставничества"
-                                               FontSize="18"
-                                               FontWeight="SemiBold"
-                                               Foreground="#19234D" />
-
-                                    <TextBlock x:Name="ProgramStatusText"
-                                               FontSize="14"
-                                               Foreground="#39446B"
-                                               TextWrapping="Wrap" />
-
-                                    <TextBlock x:Name="ProgramResultText"
-                                               FontSize="14"
-                                               Foreground="#747C90"
-                                               TextWrapping="Wrap"
-                                               IsVisible="False" />
-
+                                    <TextBlock Text="Программа наставничества" FontSize="18" FontWeight="SemiBold" Foreground="#19234D" />
+                                    <TextBlock x:Name="ProgramStatusText" FontSize="14" Foreground="#39446B" TextWrapping="Wrap" />
+                                    <TextBlock x:Name="ProgramResultText" FontSize="14" Foreground="#747C90" TextWrapping="Wrap" IsVisible="False" />
                                 </StackPanel>
                             </Border>
-
                         </StackPanel>
-                        
 
-                        <StackPanel x:Name="CoachPanel"
-                                    IsVisible="False">
-
-                            <Border x:Name="NoCoachBorder"
-                                    Classes="card">
-
+                        <!-- ПАНЕЛЬ КОУЧА -->
+                        <StackPanel x:Name="CoachPanel" IsVisible="False">
+                            <Border x:Name="NoCoachBorder" Classes="card">
                                 <StackPanel Spacing="12">
-
-                                    <TextBlock Text="Коуч пока не назначен"
-                                               FontSize="21"
-                                               FontWeight="SemiBold"
-                                               Foreground="#19234D"
-                                               TextWrapping="Wrap" />
-
-                                    <TextBlock Text="Когда коуч выберет вашу анкету, здесь появятся его данные."
-                                               FontSize="14"
-                                               Foreground="#747C90"
-                                               TextWrapping="Wrap" />
-
+                                    <TextBlock Text="Коуч пока не назначен" FontSize="21" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                                    <TextBlock Text="Когда коуч выберет вашу анкету, здесь появятся его данные." FontSize="14" Foreground="#747C90" TextWrapping="Wrap" />
                                 </StackPanel>
                             </Border>
-
-                            <Border x:Name="CoachCard"
-                                    Classes="card"
-                                    IsVisible="False">
-
+                            <Border x:Name="CoachCard" Classes="card" IsVisible="False">
                                 <StackPanel>
-
-                                    <TextBlock Text="Назначенный коуч"
-                                               Classes="cardTitle" />
-
-                                    <Grid ColumnDefinitions="2*,3*"
-                                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-
-                                        <TextBlock Text="Логин"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachLoginValue"
-                                                   Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="1"
-                                                   Text="Курс"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachCourseValue"
-                                                   Grid.Row="1" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="2"
-                                                   Text="Специальность"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachSpecialtyValue"
-                                                   Grid.Row="2" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="3"
-                                                   Text="Сектор"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachSectorValue"
-                                                   Grid.Row="3" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="4"
-                                                   Text="Академическая цель"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachGoalValue"
-                                                   Grid.Row="4" Grid.Column="1"
-                                                   Classes="value" />
-
-                                        <TextBlock Grid.Row="5"
-                                                   Text="Интерес"
-                                                   Classes="label" />
-                                        <TextBlock x:Name="CoachInterestValue"
-                                                   Grid.Row="5" Grid.Column="1"
-                                                   Classes="value" />
-
+                                    <TextBlock Text="Назначенный коуч" Classes="cardTitle" />
+                                    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                                        <TextBlock Text="Логин" Classes="label" />
+                                        <TextBlock x:Name="CoachLoginValue" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="1" Text="Курс" Classes="label" />
+                                        <TextBlock x:Name="CoachCourseValue" Grid.Row="1" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="2" Text="Специальность" Classes="label" />
+                                        <TextBlock x:Name="CoachSpecialtyValue" Grid.Row="2" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="3" Text="Сектор" Classes="label" />
+                                        <TextBlock x:Name="CoachSectorValue" Grid.Row="3" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="4" Text="Академическая цель" Classes="label" />
+                                        <TextBlock x:Name="CoachGoalValue" Grid.Row="4" Grid.Column="1" Classes="value" />
+                                        <TextBlock Grid.Row="5" Text="Интерес" Classes="label" />
+                                        <TextBlock x:Name="CoachInterestValue" Grid.Row="5" Grid.Column="1" Classes="value" />
                                     </Grid>
-
                                 </StackPanel>
                             </Border>
-
                         </StackPanel>
-                        
 
-                        <Border x:Name="MeetingsPanel"
-                                Classes="card"
-                                IsVisible="False">
-
+                        <!-- ПАНЕЛЬ ВСТРЕЧ -->
+                        <Border x:Name="MeetingsPanel" Classes="card" IsVisible="False">
                             <StackPanel>
-
-                                <TextBlock Text="История встреч с коучами"
-                                           Classes="cardTitle" />
-
-                                <TextBlock x:Name="NoMeetingsText"
-                                           Text="Встреч пока нет. После добавления коучем они появятся здесь."
-                                           FontSize="14"
-                                           Foreground="#747C90"
-                                           TextWrapping="Wrap"
-                                           IsVisible="False" />
-
+                                <TextBlock Text="История встреч с коучами" Classes="cardTitle" />
+                                <TextBlock x:Name="NoMeetingsText" Text="Встреч пока нет. После добавления они появятся здесь." FontSize="14" Foreground="#747C90" TextWrapping="Wrap" IsVisible="False" />
                                 <ItemsControl x:Name="MeetingsList">
-
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-
-                                            <Border BorderBrush="#ECEEF5"
-                                                    BorderThickness="0,0,0,1"
-                                                    Padding="0,0,0,18"
-                                                    Margin="0,0,0,18">
-
+                                            <Border BorderBrush="#ECEEF5" BorderThickness="0,0,0,1" Padding="0,0,0,18" Margin="0,0,0,18">
                                                 <Grid ColumnDefinitions="64,*">
-
-                                                    <Border Background="#F3F2FF"
-                                                            CornerRadius="6"
-                                                            Padding="6,10"
-                                                            VerticalAlignment="Top">
-
+                                                    <Border Background="#F3F2FF" CornerRadius="6" Padding="6,10" VerticalAlignment="Top">
                                                         <StackPanel Spacing="3">
-
-                                                            <TextBlock Text="{Binding MonthText}"
-                                                                       Foreground="#5B4BFF"
-                                                                       FontSize="12"
-                                                                       TextAlignment="Center" />
-
-                                                            <TextBlock Text="{Binding DayText}"
-                                                                       Foreground="#19234D"
-                                                                       FontSize="22"
-                                                                       FontWeight="SemiBold"
-                                                                       TextAlignment="Center" />
-
+                                                            <TextBlock Text="{Binding MonthText}" Foreground="#5B4BFF" FontSize="12" TextAlignment="Center" />
+                                                            <TextBlock Text="{Binding DayText}" Foreground="#19234D" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
                                                         </StackPanel>
-
                                                     </Border>
-
-                                                    <StackPanel Grid.Column="1"
-                                                                Margin="16,0,0,0"
-                                                                Spacing="7">
-
-                                                        <TextBlock Text="{Binding Topic}"
-                                                                   FontSize="16"
-                                                                   FontWeight="SemiBold"
-                                                                   Foreground="#202331"
-                                                                   TextWrapping="Wrap" />
-
-                                                        <TextBlock Text="{Binding Details}"
-                                                                   FontSize="12"
-                                                                   Foreground="#747C90"
-                                                                   TextWrapping="Wrap" />
-
-                                                        <TextBlock Text="{Binding Summary}"
-                                                                   FontSize="14"
-                                                                   Foreground="#525D76"
-                                                                   TextWrapping="Wrap" />
-
+                                                    <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="7">
+                                                        <TextBlock Text="{Binding Topic}" FontSize="16" FontWeight="SemiBold" />
+                                                        <TextBlock Text="{Binding Details}" FontSize="12" Foreground="#747C90" TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding Summary}" FontSize="14" Foreground="#525D76" TextWrapping="Wrap" />
                                                     </StackPanel>
-
                                                 </Grid>
-
                                             </Border>
-
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
-
                                 </ItemsControl>
-
-                                <Grid x:Name="PaginationPanel"
-                                      ColumnDefinitions="Auto,*,Auto"
-                                      IsVisible="False">
-
-                                    <Button x:Name="PreviousButton"
-                                            Content="Назад"
-                                            Classes="link"
-                                            Click="PreviousButton_Click" />
-
-                                    <TextBlock x:Name="PageNumberText"
-                                               Grid.Column="1"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Foreground="#747C90" />
-
-                                    <Button x:Name="NextButton"
-                                            Grid.Column="2"
-                                            Content="Далее"
-                                            Classes="link"
-                                            Click="NextButton_Click" />
-
+                                <Grid x:Name="PaginationPanel" ColumnDefinitions="Auto,*,Auto" IsVisible="False">
+                                    <Button x:Name="PreviousButton" Content="Назад" Classes="link" Click="PreviousButton_Click" />
+                                    <TextBlock x:Name="PageNumberText" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#747C90" />
+                                    <Button x:Name="NextButton" Grid.Column="2" Content="Далее" Classes="link" Click="NextButton_Click" />
                                 </Grid>
-
                             </StackPanel>
                         </Border>
 
+                        <!-- НОВАЯ ПАНЕЛЬ ЦЕЛЕЙ -->
+                        <StackPanel x:Name="GoalsPanel" IsVisible="False" Spacing="20">
+                            <Border x:Name="GoalsSummaryPanel" Classes="card" IsVisible="False">
+                                <StackPanel Spacing="10">
+                                    <TextBlock Text="Общий прогресс" Classes="cardTitle" Margin="0,0,0,4" />
+                                    <ProgressBar x:Name="GoalsSummaryBar" Minimum="0" Maximum="100" Height="10" />
+                                    <TextBlock x:Name="GoalsSummaryText" FontSize="14" Foreground="#39446B" />
+                                </StackPanel>
+                            </Border>
+                            <TextBlock x:Name="NoGoalsText" Text="Целей пока нет. Коуч добавит их после назначения." FontSize="14" Foreground="#747C90" TextWrapping="Wrap" IsVisible="False" />
+                            <ItemsControl x:Name="GoalsList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Classes="card" Margin="0,0,0,16">
+                                            <StackPanel Spacing="10">
+                                                <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding Description}" IsVisible="{Binding HasDescription}" FontSize="14" Foreground="#39446B" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding DueText}" IsVisible="{Binding HasDue}" FontSize="13" Foreground="#747C90" />
+                                                <ProgressBar Minimum="0" Maximum="100" Value="{Binding Percent}" Height="8" />
+                                                <TextBlock Text="{Binding ProgressText}" FontSize="13" Foreground="#747C90" />
+                                                <ItemsControl ItemsSource="{Binding Steps}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid ColumnDefinitions="26,*" Margin="0,4">
+                                                                <TextBlock Text="{Binding Mark}" Foreground="{Binding MarkBrush}" FontSize="16" VerticalAlignment="Top" />
+                                                                <StackPanel Grid.Column="1" Spacing="2">
+                                                                    <TextBlock Text="{Binding Title}" FontSize="14" Foreground="#202331" TextWrapping="Wrap" />
+                                                                    <TextBlock Text="{Binding DoneText}" IsVisible="{Binding IsDone}" FontSize="12" Foreground="#747C90" />
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
                     </Grid>
-
                 </StackPanel>
-
             </ScrollViewer>
-
         </Grid>
-
     </Grid>
-
 </UserControl>

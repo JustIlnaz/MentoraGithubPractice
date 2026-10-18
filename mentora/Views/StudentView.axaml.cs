@@ -144,16 +144,13 @@ public partial class StudentView : UserControl
                     MeetingDate = m.MeetingDate,
                     Topic = m.Topic,
                     Summary = m.Summary,
-
-                    CoachLogin = m.IdAssignmentNavigation
-                        .IdCoachNavigation
-                        .IdUserNavigation
-                        .Login,
-
-                    AssignmentStatus = m.IdAssignmentNavigation
-                        .IdAssignmentStatus
+                    CoachLogin = m.IdAssignmentNavigation.IdCoachNavigation.IdUserNavigation.Login,
+                    AssignmentStatus = m.IdAssignmentNavigation.IdAssignmentStatus
                 })
                 .ToListAsync();
+
+            var goals = await GoalRow.LoadAsync(
+                db.Goals.Where(g => g.IdAssignmentNavigation.IdStudent == studentId));
 
             await transaction.CommitAsync();
 
@@ -170,8 +167,7 @@ public partial class StudentView : UserControl
 
             LoginValue.Text = user.Login;
             CourseValue.Text = user.Course + " курс";
-            SpecialtyValue.Text =
-                profile.IdSpecialtyNavigation.Abbreviation;
+            SpecialtyValue.Text = profile.IdSpecialtyNavigation.Abbreviation;
             SectorValue.Text = profile.IdSectorNavigation.Name;
             GoalValue.Text = profile.AcademicGoal;
             InterestValue.Text = profile.Interest;
@@ -187,18 +183,10 @@ public partial class StudentView : UserControl
 
             if (coachProfile != null)
             {
-                CoachLoginValue.Text =
-                    coachProfile.IdUserNavigation.Login;
-
-                CoachCourseValue.Text =
-                    coachProfile.IdUserNavigation.Course + " курс";
-
-                CoachSpecialtyValue.Text =
-                    coachProfile.IdSpecialtyNavigation.Abbreviation;
-
-                CoachSectorValue.Text =
-                    coachProfile.IdSectorNavigation.Name;
-
+                CoachLoginValue.Text = coachProfile.IdUserNavigation.Login;
+                CoachCourseValue.Text = coachProfile.IdUserNavigation.Course + " курс";
+                CoachSpecialtyValue.Text = coachProfile.IdSpecialtyNavigation.Abbreviation;
+                CoachSectorValue.Text = coachProfile.IdSectorNavigation.Name;
                 CoachGoalValue.Text = coachProfile.AcademicGoal;
                 CoachInterestValue.Text = coachProfile.Interest;
             }
@@ -209,6 +197,8 @@ public partial class StudentView : UserControl
             _currentPage = 1;
 
             ShowMeetingsPage();
+
+            ShowGoals(goals);
 
             MessageBorder.IsVisible = false;
             DataContainer.IsVisible = true;
@@ -331,15 +321,40 @@ public partial class StudentView : UserControl
         ShowSection("coach");
     }
 
+    private void GoalsButton_Click(object? sender, RoutedEventArgs e)
+    {
+        ShowSection("goals");
+    }
+
+    private void ShowGoals(List<GoalRow> goals)
+    {
+        GoalsList.ItemsSource = goals;
+        NoGoalsText.IsVisible = goals.Count == 0;
+
+        int total = goals.Sum(g => g.Total);
+        int done = goals.Sum(g => g.Done);
+        double percent = total == 0 ? 0 : done * 100.0 / total;
+
+        GoalsSummaryPanel.IsVisible = total > 0;
+        GoalsSummaryBar.Value = percent;
+        GoalsSummaryText.Text =
+            "Выполнено шагов: " + done + " из " + total +
+            " (" + Math.Round(percent) + "%)";
+    }
+
     private void ShowSection(string section)
     {
         ProfilePanel.IsVisible = section == "profile";
         MeetingsPanel.IsVisible = section == "meetings";
         CoachPanel.IsVisible = section == "coach";
 
+        GoalsPanel.IsVisible = section == "goals";
+
         ProfileButton.Classes.Remove("selected");
         MeetingsButton.Classes.Remove("selected");
         CoachButton.Classes.Remove("selected");
+
+        GoalsButton.Classes.Remove("selected");
 
         switch (section)
         {
@@ -356,6 +371,11 @@ public partial class StudentView : UserControl
             case "coach":
                 PageTitleText.Text = "Коуч";
                 CoachButton.Classes.Add("selected");
+                break;
+
+            case "goals":
+                PageTitleText.Text = "Мои цели";
+                GoalsButton.Classes.Add("selected");
                 break;
         }
     }

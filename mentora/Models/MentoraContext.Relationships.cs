@@ -23,5 +23,7 @@ public partial class MentoraContext
             .WithMany()
             .HasForeignKey(a => a.IdStudent)
             .OnDelete(DeleteBehavior.Restrict);
+
+        ConfigureGoals(modelBuilder);
     }
 }
