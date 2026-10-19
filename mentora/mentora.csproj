@@ -7,6 +7,9 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Database\meeting_feedback.sql" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.2.6" />
@@ -30,5 +33,9 @@
       <None Update="dbsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Database\" />
     </ItemGroup>
 </Project>
