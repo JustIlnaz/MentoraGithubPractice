@@ -37,6 +37,8 @@ public partial class MentoraContext : DbContext
 
     public virtual DbSet<UserStatus> UserStatuses { get; set; }
 
+    public virtual DbSet<CoachRequest> CoachRequests { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -397,6 +399,65 @@ public partial class MentoraContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(30)
                 .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<CoachRequest>(entity =>
+        {
+            entity.HasKey(e => e.IdCoachRequest)
+                .HasName("coach_requests_pkey");
+
+            entity.ToTable("coach_requests");
+
+            entity.HasIndex(
+                    e => e.IdStudent,
+                    "ux_coach_requests_pending_student")
+                .IsUnique()
+                .HasFilter("(status = 1)");
+
+            entity.HasIndex(
+                e => new { e.IdCoach, e.Status, e.CreatedAt },
+                "ix_coach_requests_coach_status_created");
+
+            entity.Property(e => e.IdCoachRequest)
+                .HasColumnName("id_coach_request");
+
+            entity.Property(e => e.IdStudent)
+                .HasColumnName("id_student");
+
+            entity.Property(e => e.IdCoach)
+                .HasColumnName("id_coach");
+
+            entity.Property(e => e.Status)
+                .HasDefaultValue((short)1)
+                .HasColumnName("status");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("created_at");
+
+            entity.Property(e => e.DecidedAt)
+                .HasColumnName("decided_at");
+
+            entity.Property(e => e.DecidedBy)
+                .HasColumnName("decided_by");
+
+            entity.HasOne<Profile>()
+                .WithMany()
+                .HasForeignKey(e => e.IdStudent)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("coach_requests_id_student_fkey");
+
+            entity.HasOne<Profile>()
+                .WithMany()
+                .HasForeignKey(e => e.IdCoach)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("coach_requests_id_coach_fkey");
+
+            entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(e => e.DecidedBy)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("coach_requests_decided_by_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

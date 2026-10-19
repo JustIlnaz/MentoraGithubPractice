@@ -119,9 +119,22 @@ public partial class RegistrationView : UserControl
                 ShowMessage("Нет доступных специальностей или секторов. " + "Обратитесь к администратору.");
             }
         }
-        catch (Exception)
+        //catch (Exception)
+        //{
+        //    ShowMessage("Не удалось загрузить справочники. " + "Проверьте подключение к базе и нажмите " + "«Обновить списки специальностей и секторов».");
+        //}
+        catch (Exception ex)
         {
-            ShowMessage("Не удалось загрузить справочники. " + "Проверьте подключение к базе и нажмите " + "«Обновить списки специальностей и секторов».");
+            if (ex is Npgsql.PostgresException pgEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"Код ошибки: {pgEx.SqlState}");
+                System.Diagnostics.Debug.WriteLine($"Сообщение: {pgEx.MessageText}");
+                System.Diagnostics.Debug.WriteLine($"Детали: {pgEx.Detail}");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
         }
         finally
         {

@@ -235,6 +235,8 @@ public partial class CoachView : UserControl
         StudentsButton.Classes.Remove("selected");
 
         PageTitleText.Text = "Мой профиль";
+
+        RequestsButton.Classes.Remove("selected");
     }
 
     private async void StudentsButton_Click(object? sender, RoutedEventArgs e)
@@ -249,6 +251,8 @@ public partial class CoachView : UserControl
 
         ProfileButton.Classes.Remove("selected");
         StudentsButton.Classes.Add("selected");
+
+        RequestsButton.Classes.Remove("selected");
 
         PageTitleText.Text = "Поиск студентов";
         _currentPage = 1;
@@ -494,8 +498,6 @@ public partial class CoachView : UserControl
         await SearchAsync();
     }
 
-    // Обработчик кнопки «Открыть» в списке студентов.
-    // По нажатию показывает подтверждение и закрепляет выбранного студента за коучем.
     private async void OpenStudentButton_Click(object? sender, RoutedEventArgs e)
     {
         await SelectStudentAsync(sender, e);
@@ -882,6 +884,7 @@ public partial class CoachView : UserControl
     {
         _isBusy = isBusy;
 
+        RequestsButton.IsEnabled = !isBusy;
         RefreshButton.IsEnabled = !isBusy;
         DataContainer.IsEnabled = !isBusy;
         ProfileButton.IsEnabled = !isBusy;
@@ -923,6 +926,30 @@ public partial class CoachView : UserControl
             : base(message)
         {
         }
+    }
+
+    private async void RequestsButton_Click(
+    object? sender,
+    RoutedEventArgs e)
+    {
+        if (_isBusy
+            || TopLevel.GetTopLevel(this) is not Window owner)
+        {
+            return;
+        }
+
+        int coachId = UserSession.IdUser;
+
+        ProfileButton.Classes.Remove("selected");
+        StudentsButton.Classes.Remove("selected");
+        RequestsButton.Classes.Add("selected");
+
+        var window = new CoachRequestsWindow();
+
+        await window.ShowDialog(owner);
+
+        if (IsCurrentCoach(coachId))
+            await LoadDataAsync();
     }
 }
 
