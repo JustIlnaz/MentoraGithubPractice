@@ -580,9 +580,10 @@
 														</DataTemplate>
 													</ItemsControl.ItemTemplate>
 												</ItemsControl>
-												<Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+												<Grid ColumnDefinitions="*,Auto">
 													<TextBox Watermark="Новый шаг"
-														 Grid.Column="0" />
+														 Grid.Column="0"
+														 Margin="0,0,8,0" />
 													<Button Content="Добавить шаг"
 														Classes="link"
 														Grid.Column="1"
