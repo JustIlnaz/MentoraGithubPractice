@@ -145,8 +145,7 @@ public partial class CoachView : UserControl
 
             LoginValue.Text = user.Login;
             CourseValue.Text = user.Course + " курс";
-            SpecialtyValue.Text =
-                profile.IdSpecialtyNavigation.Abbreviation;
+            SpecialtyValue.Text = profile.IdSpecialtyNavigation.Abbreviation;
             SectorValue.Text = profile.IdSectorNavigation.Name;
             GoalValue.Text = profile.AcademicGoal;
             InterestValue.Text = profile.Interest;
@@ -155,29 +154,24 @@ public partial class CoachView : UserControl
             _requireSameSpecialty = settings.RequireSameSpecialty;
             _hasStudent = assignment != null;
 
+            _assignmentId = assignment?.IdAssignment;
+
             NoStudentPanel.IsVisible = !_hasStudent;
             StudentCard.IsVisible = _hasStudent;
             StudentsButton.IsEnabled = !_hasStudent;
 
             if (studentProfile != null)
             {
-                StudentLoginValue.Text =
-                    studentProfile.IdUserNavigation.Login;
-
-                StudentSpecialtyValue.Text =
-                    studentProfile.IdSpecialtyNavigation.Abbreviation;
-
-                StudentSectorValue.Text =
-                    studentProfile.IdSectorNavigation.Name;
-
+                StudentLoginValue.Text = studentProfile.IdUserNavigation.Login;
+                StudentSpecialtyValue.Text = studentProfile.IdSpecialtyNavigation.Abbreviation;
+                StudentSectorValue.Text = studentProfile.IdSectorNavigation.Name;
                 StudentGoalValue.Text = studentProfile.AcademicGoal;
                 StudentInterestValue.Text = studentProfile.Interest;
             }
 
             SpecialtyFilter.ItemsSource = specialties;
             SpecialtyFilter.SelectedItem = specialties
-                .FirstOrDefault(s =>
-                    s.IdSpecialty == _coachSpecialtyId);
+                .FirstOrDefault(s => s.IdSpecialty == _coachSpecialtyId);
 
             SpecialtyFilter.IsEnabled = !_requireSameSpecialty;
             RestrictionText.IsVisible = _requireSameSpecialty;
@@ -248,6 +242,9 @@ public partial class CoachView : UserControl
 
         ProfilePanel.IsVisible = false;
         SearchPanel.IsVisible = true;
+
+        GoalsPanel.IsVisible = false;
+        GoalsButton.Classes.Remove("selected");
 
         ProfileButton.Classes.Remove("selected");
         StudentsButton.Classes.Add("selected");
@@ -889,6 +886,8 @@ public partial class CoachView : UserControl
         DataContainer.IsEnabled = !isBusy;
         ProfileButton.IsEnabled = !isBusy;
         StudentsButton.IsEnabled = !isBusy && !_hasStudent;
+
+        GoalsButton.IsEnabled = !isBusy && _hasStudent;
     }
 
     private bool IsCurrentCoach(int coachId)
@@ -968,6 +967,4 @@ public class CoachStudentRow
     public string Interest { get; set; } = "";
 
     public string Details => Specialty + " · " + Sector;
-
-
 }

@@ -26,6 +26,7 @@ public partial class MentoraContext
             .HasForeignKey(a => a.IdStudent)
             .OnDelete(DeleteBehavior.Restrict);
 
+        ConfigureGoals(modelBuilder);
         modelBuilder.Entity<MeetingFeedback>(entity =>
         {
             entity.HasKey(e => e.IdFeedback).HasName("meeting_feedback_pkey");
