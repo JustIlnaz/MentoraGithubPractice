@@ -20,10 +20,14 @@ public static class DbConfig
         using var stream = File.OpenRead(path);
         using var document = JsonDocument.Parse(stream);
 
-        string? value = document.RootElement.GetProperty("ConnectionString").GetString();
+        string? value = Environment.GetEnvironmentVariable("MENTORA_CONNECTION_STRING");
 
         if (string.IsNullOrWhiteSpace(value))
-            throw new InvalidOperationException("В dbsettings.json не задана строка подключения.");
+            value = document.RootElement.GetProperty("ConnectionString").GetString();
+
+        if (string.IsNullOrWhiteSpace(value))
+            throw new InvalidOperationException(
+                "Не задана строка подключения. Укажите MENTORA_CONNECTION_STRING или заполните dbsettings.json.");
 
         return value;
     }
