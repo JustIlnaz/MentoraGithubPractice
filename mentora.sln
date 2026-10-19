@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mentora", "mentora\mentora.csproj", "{6A9AA643-B04C-42A0-88F8-A7F31550A9C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mentora.Tests", "mentora.Tests\mentora.Tests.csproj", "{78E32B1E-57D1-4AC0-B1D6-C3B161BC19D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{6A9AA643-B04C-42A0-88F8-A7F31550A9C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A9AA643-B04C-42A0-88F8-A7F31550A9C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A9AA643-B04C-42A0-88F8-A7F31550A9C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E32B1E-57D1-4AC0-B1D6-C3B161BC19D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E32B1E-57D1-4AC0-B1D6-C3B161BC19D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E32B1E-57D1-4AC0-B1D6-C3B161BC19D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E32B1E-57D1-4AC0-B1D6-C3B161BC19D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
