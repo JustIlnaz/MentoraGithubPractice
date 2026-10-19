@@ -184,12 +184,6 @@
                         </StackPanel>
 
 
-                        <StackPanel x:Name="CoachPanel"
-                                    IsVisible="False">
-
-                            <Border x:Name="NoCoachBorder"
-                                    Classes="card">
-
                         <!-- ПАНЕЛЬ КОУЧА -->
                         <StackPanel x:Name="CoachPanel" IsVisible="False">
                             <Border x:Name="NoCoachBorder" Classes="card">
@@ -274,10 +268,6 @@
                         </StackPanel>
 
 
-                        <Border x:Name="MeetingsPanel"
-                                Classes="card"
-                                IsVisible="False">
-
                         <!-- ПАНЕЛЬ ВСТРЕЧ -->
                         <Border x:Name="MeetingsPanel" Classes="card" IsVisible="False">
                             <StackPanel>
@@ -299,29 +289,6 @@
                                                         <TextBlock Text="{Binding Details}" FontSize="12" Foreground="#747C90" TextWrapping="Wrap" />
                                                         <TextBlock Text="{Binding Summary}" FontSize="14" Foreground="#525D76" TextWrapping="Wrap" />
 
-                                                    <StackPanel Grid.Column="1"
-                                                                Margin="16,0,0,0"
-                                                                Spacing="7">
-
-                                                        <TextBlock Text="{Binding Topic}"
-                                                                   FontSize="16"
-                                                                   FontWeight="SemiBold"
-                                                                   Foreground="#202331"
-                                                                   TextWrapping="Wrap" />
-
-                                                        <TextBlock Text="{Binding Details}"
-                                                                   FontSize="12"
-                                                                   Foreground="#747C90"
-                                                                   TextWrapping="Wrap" />
-
-                                                        <TextBlock Text="{Binding Summary}"
-                                                                   FontSize="14"
-                                                                   Foreground="#525D76"
-                                                                   TextWrapping="Wrap" />
-                                                        <TextBlock Text="{Binding Summary}"
-                                                                   FontSize="14"
-                                                                   Foreground="#525D76"
-                                                                   TextWrapping="Wrap" />
                                                         <TextBlock Text="{Binding FeedbackText}"
                                                                    IsVisible="{Binding HasFeedback}"
                                                                    FontSize="13"
