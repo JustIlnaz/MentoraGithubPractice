@@ -224,6 +224,7 @@ public partial class CoachView : UserControl
 
         ProfilePanel.IsVisible = true;
         SearchPanel.IsVisible = false;
+        GoalsPanel.IsVisible = false;
 
         ProfileButton.Classes.Add("selected");
         StudentsButton.Classes.Remove("selected");
@@ -231,6 +232,7 @@ public partial class CoachView : UserControl
         PageTitleText.Text = "Мой профиль";
 
         RequestsButton.Classes.Remove("selected");
+        GoalsButton.Classes.Remove("selected");
     }
 
     private async void StudentsButton_Click(object? sender, RoutedEventArgs e)
