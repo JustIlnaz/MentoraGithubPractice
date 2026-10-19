@@ -196,14 +196,20 @@ public partial class LoginView : UserControl
             UserSession.SetUser(user);
             mainWindow.ShowAuthorizedPage();
         }
-        catch (Exception)
+
+        catch (Exception ex)
         {
             UserSession.Clear();
             PasswordTextBox.Text = "";
 
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
+            System.Diagnostics.Debug.WriteLine(
+                ex.InnerException?.ToString() ?? "InnerException отсутствует");
+
             ShowMessage(
-                "Не удалось выполнить вход. Проверьте доступность " + "базы данных. Если ошибка повторяется, " + "обратитесь к администратору.");
+                "Ошибка входа: " + ex.Message);
         }
+
         finally
         {
             SetBusy(false);

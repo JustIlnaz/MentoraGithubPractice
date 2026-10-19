@@ -118,20 +118,59 @@
                             </Border>
                             <Border Classes="card">
                                 <StackPanel>
-                                    <TextBlock Text="Анкета" Classes="cardTitle" />
-                                    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-                                        <TextBlock Text="Логин" Classes="label" />
-                                        <TextBlock x:Name="LoginValue" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="1" Text="Курс" Classes="label" />
-                                        <TextBlock x:Name="CourseValue" Grid.Row="1" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="2" Text="Специальность" Classes="label" />
-                                        <TextBlock x:Name="SpecialtyValue" Grid.Row="2" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="3" Text="Сектор" Classes="label" />
-                                        <TextBlock x:Name="SectorValue" Grid.Row="3" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="4" Text="Академическая цель" Classes="label" />
-                                        <TextBlock x:Name="GoalValue" Grid.Row="4" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="5" Text="Интерес" Classes="label" />
-                                        <TextBlock x:Name="InterestValue" Grid.Row="5" Grid.Column="1" Classes="value" />
+
+                                    <TextBlock Text="Анкета"
+                                               Classes="cardTitle" />
+
+                                    <Grid ColumnDefinitions="2*,3*"
+                                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+
+                                        <TextBlock Text="Логин"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="LoginValue"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="1"
+                                                   Text="Курс"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CourseValue"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="2"
+                                                   Text="Специальность"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="SpecialtyValue"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="3"
+                                                   Text="Сектор"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="SectorValue"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="4"
+                                                   Text="Академическая цель"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="GoalValue"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="5"
+                                                   Text="Интерес"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="InterestValue"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -155,26 +194,80 @@
                         <StackPanel x:Name="CoachPanel" IsVisible="False">
                             <Border x:Name="NoCoachBorder" Classes="card">
                                 <StackPanel Spacing="12">
-                                    <TextBlock Text="Коуч пока не назначен" FontSize="21" FontWeight="SemiBold" Foreground="#19234D" TextWrapping="Wrap" />
-                                    <TextBlock Text="Когда коуч выберет вашу анкету, здесь появятся его данные." FontSize="14" Foreground="#747C90" TextWrapping="Wrap" />
+
+                                    <TextBlock Text="Коуч пока не назначен"
+                                               FontSize="21"
+                                               FontWeight="SemiBold"
+                                               Foreground="#19234D"
+                                               TextWrapping="Wrap" />
+
+                                    <TextBlock Text="Подберите подходящего коуча по специальности, сектору и интересам вашей анкеты."
+                                               FontSize="14"
+                                               Foreground="#747C90"
+                                               TextWrapping="Wrap" />
+
+                                    <Button Content="Подобрать коуча"
+                                            Classes="link"
+                                            HorizontalAlignment="Left"
+                                            Click="FindCoachButton_Click" />
+
                                 </StackPanel>
                             </Border>
                             <Border x:Name="CoachCard" Classes="card" IsVisible="False">
                                 <StackPanel>
-                                    <TextBlock Text="Назначенный коуч" Classes="cardTitle" />
-                                    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-                                        <TextBlock Text="Логин" Classes="label" />
-                                        <TextBlock x:Name="CoachLoginValue" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="1" Text="Курс" Classes="label" />
-                                        <TextBlock x:Name="CoachCourseValue" Grid.Row="1" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="2" Text="Специальность" Classes="label" />
-                                        <TextBlock x:Name="CoachSpecialtyValue" Grid.Row="2" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="3" Text="Сектор" Classes="label" />
-                                        <TextBlock x:Name="CoachSectorValue" Grid.Row="3" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="4" Text="Академическая цель" Classes="label" />
-                                        <TextBlock x:Name="CoachGoalValue" Grid.Row="4" Grid.Column="1" Classes="value" />
-                                        <TextBlock Grid.Row="5" Text="Интерес" Classes="label" />
-                                        <TextBlock x:Name="CoachInterestValue" Grid.Row="5" Grid.Column="1" Classes="value" />
+
+                                    <TextBlock Text="Назначенный коуч"
+                                               Classes="cardTitle" />
+
+                                    <Grid ColumnDefinitions="2*,3*"
+                                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+
+                                        <TextBlock Text="Логин"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachLoginValue"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="1"
+                                                   Text="Курс"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachCourseValue"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="2"
+                                                   Text="Специальность"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachSpecialtyValue"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="3"
+                                                   Text="Сектор"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachSectorValue"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="4"
+                                                   Text="Академическая цель"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachGoalValue"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
+                                        <TextBlock Grid.Row="5"
+                                                   Text="Интерес"
+                                                   Classes="label" />
+                                        <TextBlock x:Name="CoachInterestValue"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1"
+                                                   Classes="value" />
+
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -301,4 +394,5 @@
             </ScrollViewer>
         </Grid>
     </Grid>
+
 </UserControl>

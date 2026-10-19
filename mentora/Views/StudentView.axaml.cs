@@ -449,6 +449,23 @@ public partial class StudentView : UserControl
 
         MessageBorder.IsVisible = true;
     }
+
+    private async void FindCoachButton_Click(
+    object? sender,
+    RoutedEventArgs e)
+    {
+        if (_isLoading)
+            return;
+
+        if (TopLevel.GetTopLevel(this) is not Window owner)
+            return;
+
+        var window = new StudentCoachMatchingWindow();
+
+        await window.ShowDialog(owner);
+
+        await LoadDataAsync();
+    }
 }
 
 public class StudentMeetingRow
